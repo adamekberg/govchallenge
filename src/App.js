@@ -1,26 +1,38 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import DeckGL, {LineLayer} from 'deck.gl';
+import {StaticMap} from 'react-map-gl';
 
-class App extends Component {
+// Set your mapbox access token here
+const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYWRhbWVrYmVyZyIsImEiOiJjamttcXdjeDMwZHd0M2tvemx1a3BnZ2h5In0.JtC9rUXVaxJ8ONGdfmPmsg';
+
+// Initial viewport settings
+const initialViewState = {
+  longitude: -122.41669,
+  latitude: 37.7853,
+  zoom: 13,
+  pitch: 0,
+  bearing: 0
+};
+
+// Data to be used by the LineLayer
+const data = [
+  {sourcePosition: [-122.41669, 37.7853],
+  targetPosition: [-122.41669, 37.781]}];
+
+class App extends React.Component {
   render() {
+    const layers = [
+      new LineLayer({id: 'line-layer', data})
+    ];
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <DeckGL
+        initialViewState={initialViewState}
+        controller={true}
+        layers={layers}
+      >
+        <StaticMap mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN} />
+      </DeckGL>
     );
   }
 }
