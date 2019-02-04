@@ -2,9 +2,11 @@ import React from 'react';
 import DeckGL, { LineLayer, GeoJsonLayer } from 'deck.gl';
 import MapGL from 'react-map-gl';
 import geoData from './data/Stockholm_Parking.json';
+import busStops from './data/stops.json';
 import { Checkbox } from 'semantic-ui-react';
-
 import { MapboxLayer } from '@deck.gl/mapbox';
+
+const GeoJSON = require('geojson');
 
 // Set your mapbox access token here
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYWRhbWVrYmVyZyIsImEiOiJjamttcXdjeDMwZHd0M2tvemx1a3BnZ2h5In0.JtC9rUXVaxJ8ONGdfmPmsg';
@@ -52,13 +54,12 @@ class App extends React.Component {
     super();
 
     this.state = {
-      showParking: true
+      showParking: true,
+      showBusStops: true
     };
   }
 
   createParkingLayer() {
-    const showIt = this.state.showParking;
-
     return new GeoJsonLayer({
       id: 'geojson-layer',
       data: geoData,
@@ -73,7 +74,34 @@ class App extends React.Component {
       getRadius: 100,
       getLineWidth: 1,
       getElevation: 0,
-      visible: showIt,
+      visible: this.state.showParking,
+      onHover: ({object, x, y}) => {
+      //console.log('h', object)
+      //   const tooltip = object.properties.name || object.properties.station;
+      //    Update tooltip
+      //      http://deck.gl/#/documentation/developer-guide/adding-interactivity?section=example-display-a-tooltip-for-hovered-object
+
+      }
+    })
+  }
+
+  createBusStopLayer() {
+    var stops = GeoJSON.parse(busStops.ResponseData.Result, {Point: ['LocationNorthingCoordinate', 'LocationEastingCoordinate']});
+    return new GeoJsonLayer({
+      id: 'geojson-layer',
+      data: stops,
+      pickable: true,
+      stroked: true,
+      filled: true,
+      extruded: true,
+      lineWidthScale: 20,
+      lineWidthMinPixels: 2,
+      getFillColor: [300, 160, 180, 200],
+      getLineColor: [300, 160, 180, 200],
+      getRadius: 10,
+      getLineWidth: 1,
+      getElevation: 0,
+      visible: this.state.showBusStops,
       onHover: ({object, x, y}) => {
       //console.log('h', object)
       //   const tooltip = object.properties.name || object.properties.station;
@@ -99,7 +127,7 @@ class App extends React.Component {
   render() {
     const { gl } = this.state;
 
-    const layers = [ this.createParkingLayer() ];
+    const layers = [ this.createParkingLayer(), this.createBusStopLayer() ];
 
     return (
       <div>
@@ -131,21 +159,25 @@ class App extends React.Component {
 
         </DeckGL>
 
-        <div style={{ position: 'absolute' }} className="controller">
-          <input ref="parkingCheck" type="checkbox" defaultChecked="true" onChange={ this._handleChecked }/>
-          <label>Show stuff</label>
+        <div style={{ position: 'relative' }} className="parking">
+          <input ref="parkingCheck" type="checkbox" defaultChecked="true" onChange={ this._toggleParking }/>
+          <label>Show parking</label>
+        </div>
+        <div style={{ position: 'relative' }} className="busStops">
+          <input ref="busStopCheck" type="checkbox" defaultChecked="true" onChange={ this._toggleBusStops }/>
+          <label>Show bus stops</label>
         </div>
 
       </div>
     );
   }
 
-
-
-
-
-  _handleChecked = () => {
+  _toggleParking = () => {
     this.setState({showParking: this.refs.parkingCheck.checked })
+  }
+
+  _toggleBusStops = () => {
+    this.setState({showBusStops: this.refs.busStopCheck.checked })
   }
 
 }
