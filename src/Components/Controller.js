@@ -3,11 +3,11 @@ import {
   parkingLayer,
   busStopLayer,
   cycleTrafficLayer,
-  buildingsLayer,
 } from '../layers/layers'
+import '../Controller.css'
 
 
-// import { Checkbox } from 'semantic-ui-react';
+import { Checkbox } from 'semantic-ui-react';
 
 class App extends React.Component {
 
@@ -15,26 +15,33 @@ class App extends React.Component {
     super();
 
     this.state = {
-      showParking: true,
+      showParking: false,
       showBusStops: true,
       showCycleTraffic: true,
+      extrudeCycleTraffic: true,
     };
   }
 
-  _toggleParking = () => {
-    this.setState({showParking: this.refs.parkingCheck.checked })
+  _toggleParking = (e, { checked }) => {
+    this.setState({showParking: checked })
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers,0)
   }
 
-  _toggleBusStops = () => {
-    this.setState({showBusStops: this.refs.busStopCheck.checked })
+  _toggleBusStops = (e, { checked }) => {
+    this.setState({showBusStops: checked })
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers,0)
   }
 
-  _toggleCycleTraffic = () => {
-    this.setState({showCycleTraffic: this.refs.cycleTrafficCheck.checked })
+  _toggleCycleTraffic = (e, { checked }) => {
+    this.setState({showCycleTraffic: checked })
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers,0)
+  }
+
+  _toggleCycleTrafficExtrude = (e, { checked }) => {
+    this.setState({extrudeCycleTraffic: checked })
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers,0)
   }
@@ -44,7 +51,7 @@ class App extends React.Component {
     let layers = [
         parkingLayer( this.state.showParking ),
         busStopLayer( this.state.showBusStops ),
-        cycleTrafficLayer( this.state.showCycleTraffic )
+        cycleTrafficLayer( this.state.showCycleTraffic, this.state.extrudeCycleTraffic )
       ]
 
     this.props.onLayerChange( layers )
@@ -57,18 +64,25 @@ class App extends React.Component {
 
   render() {
     return(
-      <div className="controller">
-        <div style={{ position: 'relative' }} className="parking">
-          <input ref="parkingCheck" type="checkbox" defaultChecked="true" onChange={ this._toggleParking }/>
-          <label>Parking</label>
+      <div className="controller-container">
+        <h3>Stockholm Sustainable Traffic Planning</h3>
+        <p>Toggle the checkboxes below to turn layers on&nbsp;and&nbsp;off</p>
+
+        <div className="controller-option option-parking">
+          <Checkbox label="Parking" ref="parkingCheck" type="checkbox" onChange={ this._toggleParking }/>
         </div>
-        <div style={{ position: 'relative' }} className="bus-stops">
-          <input ref="busStopCheck" type="checkbox" defaultChecked="true" onChange={ this._toggleBusStops }/>
-          <label>Bus stops</label>
+        <div className="controller-option option-bus-stops">
+          <Checkbox label="Bus Stops" ref="busStopCheck" type="checkbox" defaultChecked onChange={ this._toggleBusStops }/>
         </div>
-        <div style={{ position: 'relative' }} className="cycle-traffic">
-          <input ref="cycleTrafficCheck" type="checkbox" defaultChecked="true" onChange={ this._toggleCycleTraffic }/>
-          <label>Cycle Traffic</label>
+        <div className="controller-option option-cycle-traffic">
+          <Checkbox label="Bicycle Traffic" ref="cycleTrafficCheck" type="checkbox" defaultChecked onChange={ this._toggleCycleTraffic }/>
+        </div>
+        <div className="controller-option option-cycle-traffic">
+        {
+          this.state.showCycleTraffic ?
+          <Checkbox label="Extrude Bicycle Traffic" ref="cycleTrafficCheck" type="checkbox" defaultChecked onChange={ this._toggleCycleTrafficExtrude }/> :
+          <Checkbox label="Extrude Bicycle Traffic" ref="cycleTrafficCheck" type="checkbox" defaultChecked disabled onChange={ this._toggleCycleTrafficExtrude }/>
+        }
         </div>
       </div>
     )
