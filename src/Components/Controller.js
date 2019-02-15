@@ -1,7 +1,6 @@
 import React from 'react';
 import DeckGL, { GeoJsonLayer, HexagonLayer } from 'deck.gl';
 import MapGL from 'react-map-gl';
-import StaticMap from 'react-map-gl';
 import geoData from './data/Stockholm_Parking.json';
 import busStops from './data/stops.json';
 import cycleTraffic from './data/cleaned_cycle_data.json';
@@ -168,7 +167,7 @@ class App extends React.Component {
   _onWebGLInitialized = (gl) => {
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
-    // this.setState({gl});
+    this.setState({gl});
   }
 
   _onMapLoad = () => {
@@ -190,35 +189,6 @@ class App extends React.Component {
 
     return (
       <div>
-
-        <DeckGL
-          ref={ref => {
-              // save a reference to the Deck instance
-              this._deck = ref && ref.deck;
-          }}
-          onWebGLInitialized={this._onWebGLInitialized}
-          initialViewState={initialViewState}
-          controller={true}
-          layers={layers}
-        >
-        { gl && (
-          <StaticMap
-            ref={ref => {
-                // save a reference to the mapboxgl.Map instance
-                this._map = ref && ref.getMap();
-              }}
-            mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
-            gl={gl}
-            onLoad={this._onMapLoad}
-            mapStyle="mapbox://styles/mapbox/dark-v9"
-            preventStyleDiffing={true}
-          >
-
-          </StaticMap>
-
-        )}
-
-        </DeckGL>
 
         <div style={{ position: 'relative' }} className="parking">
           <input ref="parkingCheck" type="checkbox" defaultChecked="true" onChange={ this._toggleParking }/>

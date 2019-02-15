@@ -1,0 +1,2 @@
+Stockholm Traffic flow
+https://openstreetws.stockholm.se/LvWS-3.0/Lv.svc/json/GetNearestFeatureList?apikey=2633a10e-8496-4bad-a24d-f2f30be9e659&easting=18.0686&northing=59.3293&maxDistance=1000&maxNrOfResults=1100&featureTypeName=%22Trafikfl%C3%B6de%20Cykel%22
