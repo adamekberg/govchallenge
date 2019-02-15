@@ -8,7 +8,7 @@ var url2 = ')&fromSrid=3011&toSrid=4326';
 
 var features = flow.features;
 
-for (var i = 0; i < 10; i++) {
+for (var i = 0; i < 100; i++) {
     var feature = features[i];
     var coordinates = feature.geometry.coordinates;
     for (var j = 0; j < coordinates.length; j++) {
