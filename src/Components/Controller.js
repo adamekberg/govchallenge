@@ -77,7 +77,7 @@ class App extends React.Component {
         <div className="controller-option option-cycle-traffic">
           <Checkbox label="Bicycle Traffic" ref="cycleTrafficCheck" type="checkbox" defaultChecked onChange={ this._toggleCycleTraffic }/>
         </div>
-        <div className="controller-option option-cycle-traffic">
+        <div className="controller-option option-extrude-cycle-traffic">
         {
           this.state.showCycleTraffic ?
           <Checkbox label="Extrude Bicycle Traffic" ref="cycleTrafficCheck" type="checkbox" defaultChecked onChange={ this._toggleCycleTrafficExtrude }/> :

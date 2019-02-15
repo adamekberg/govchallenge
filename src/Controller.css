@@ -10,4 +10,9 @@
 
 .controller-option {
   color:#1a1a1a;
+  margin-bottom:1em;
+}
+
+.option-extrude-cycle-traffic {
+  margin-left: 1em;
 }
