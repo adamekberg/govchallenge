@@ -3,6 +3,7 @@ import {
   parkingLayer,
   busStopLayer,
   cycleTrafficLayer,
+  carTrafficLayer,
   buildingsLayer,
 } from '../layers/layers'
 
@@ -38,7 +39,8 @@ class App extends React.Component {
     let layers = [
         parkingLayer( this.state.showParking ),
         busStopLayer( this.state.showBusStops ),
-        cycleTrafficLayer( this.state.showCycleTraffic )
+        cycleTrafficLayer( this.state.showCycleTraffic ),
+        carTrafficLayer( this.state.showCycleTraffic )
       ]
 
     this.props.onLayerChange( layers )
