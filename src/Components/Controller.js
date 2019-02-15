@@ -84,6 +84,7 @@ class App extends React.Component {
           <Checkbox label="Extrude Bicycle Traffic" ref="cycleTrafficCheck" type="checkbox" defaultChecked disabled onChange={ this._toggleCycleTrafficExtrude }/>
         }
         </div>
+        <div class="controller-option">*right click and drag to rotate camera</div>
       </div>
     )
   }
