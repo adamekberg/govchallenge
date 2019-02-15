@@ -23,14 +23,20 @@ class App extends React.Component {
 
   _toggleParking = () => {
     this.setState({showParking: this.refs.parkingCheck.checked })
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers,0)
   }
 
   _toggleBusStops = () => {
     this.setState({showBusStops: this.refs.busStopCheck.checked })
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers,0)
   }
 
   _toggleCycleTraffic = () => {
     this.setState({showCycleTraffic: this.refs.cycleTrafficCheck.checked })
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers,0)
   }
 
   _updateLayers = () => {
@@ -54,15 +60,15 @@ class App extends React.Component {
       <div className="controller">
         <div style={{ position: 'relative' }} className="parking">
           <input ref="parkingCheck" type="checkbox" defaultChecked="true" onChange={ this._toggleParking }/>
-          <label>Show parking</label>
+          <label>Parking</label>
         </div>
-        <div style={{ position: 'relative' }} className="busStops">
+        <div style={{ position: 'relative' }} className="bus-stops">
           <input ref="busStopCheck" type="checkbox" defaultChecked="true" onChange={ this._toggleBusStops }/>
-          <label>Show bus stops</label>
+          <label>Bus stops</label>
         </div>
-        <div style={{ position: 'relative' }} className="busStops">
-          <input ref="busStopCheck" type="checkbox" defaultChecked="true" onChange={ this._toggleCycleTraffic }/>
-          <label>Show bus stops</label>
+        <div style={{ position: 'relative' }} className="cycle-traffic">
+          <input ref="cycleTrafficCheck" type="checkbox" defaultChecked="true" onChange={ this._toggleCycleTraffic }/>
+          <label>Cycle Traffic</label>
         </div>
       </div>
     )
