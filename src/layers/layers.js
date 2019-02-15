@@ -3,7 +3,7 @@ import { GeoJsonLayer, HexagonLayer } from 'deck.gl';
 import parkingData from '../data/Stockholm_Parking.json';
 import busStopData from '../data/bus_stops_geo.json';
 import cycleTrafficData from '../data/cycle_data_final.json';
-console.log(cycleTrafficData.length)
+
 const colorRange = [
   [1, 152, 189],
   [73, 227, 206],

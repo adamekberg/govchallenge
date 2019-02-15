@@ -5,6 +5,7 @@ import MapGL from 'react-map-gl';
 import Controller from './Components/Controller'
 
 import 'mapbox-gl/dist/mapbox-gl.css'
+import './App.css'
 
 // Set your mapbox access token here
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYWRhbWVrYmVyZyIsImEiOiJjamttcXdjeDMwZHd0M2tvemx1a3BnZ2h5In0.JtC9rUXVaxJ8ONGdfmPmsg';
@@ -13,7 +14,7 @@ const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiYWRhbWVrYmVyZyIsImEiOiJjamttcXdjeDMwZHd0
 const initialViewState = {
   longitude: 18.0686,
   latitude: 59.3293,
-  zoom: 12,
+  zoom: 13.5,
   pitch: 45,
   bearing: 0,
 };
@@ -100,6 +101,7 @@ class App extends React.Component {
 
         <Controller onLayerChange={ this._onLayerChange }/>
 
+        <div className="footer">2019 Tyler Wolf and Adam Ekberg - Data Source: <a href="https://open.stockholm.se/">https://open.stockholm.se/</a></div>
       </div>
     );
   }
