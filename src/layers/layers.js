@@ -3,7 +3,7 @@ import { GeoJsonLayer, HexagonLayer } from 'deck.gl';
 import parkingData from '../data/Stockholm_Parking.json';
 import busStopData from '../data/bus_stops_geo.json';
 import cycleTrafficData from '../data/cycle_data_final.json';
-import carTrafficData from '../data/cars_traffic_flow_coords.json';
+import carTrafficData from '../data/cars_data_final.json';
 
 const colorRange = [
   [1, 152, 189],
@@ -110,7 +110,7 @@ const cycleTrafficLayer = (show=true, extruded=true) => {
   })
 }
 
-const carTrafficLayer = (show=true) => {
+const carTrafficLayer = (show=true, extruded=true) => {
 
   function getColorValue(points) {
     return points.reduce((a,c) => a + +c.value, 0)
@@ -120,7 +120,7 @@ const carTrafficLayer = (show=true) => {
       id: 'car-traffic-layer',
       data: carTrafficData,
       pickable: true,
-      extruded: true,
+      extruded: extruded,
       radius: 20,
       elevationScale: 1,
       colorRange,
@@ -132,13 +132,7 @@ const carTrafficLayer = (show=true) => {
       visible: true,
       lightSettings: LIGHT_SETTINGS,
       opacity:1,
-      visible: show,
-      // onHover: ({object, x, y}) => {
-        // const tooltip = `${object.centroid.join(', ')}\nCount: ${object.points.length}`;
-        /* Update tooltip
-           http://deck.gl/#/documentation/developer-guide/adding-interactivity?section=example-display-a-tooltip-for-hovered-object
-        */
-      // }
+      visible: show
     })
   }
 

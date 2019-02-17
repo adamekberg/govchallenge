@@ -18,7 +18,9 @@ class App extends React.Component {
     this.state = {
       showParking: false,
       showBusStops: true,
-      showCycleTraffic: true,
+      showCycleTraffic: false,
+      extrudeCycleTraffic: true,
+      showCarTraffic: true,
       extrudeCycleTraffic: true,
     };
   }
@@ -47,13 +49,25 @@ class App extends React.Component {
     setTimeout(this._updateLayers,0)
   }
 
+  _toggleCarTraffic = (e, { checked }) => {
+    this.setState({showCarTraffic: checked })
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers,0)
+  }
+
+  _toggleCarTrafficExtrude = (e, { checked }) => {
+    this.setState({extrudeCarTraffic: checked })
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers,0)
+  }
+
   _updateLayers = () => {
 
     let layers = [
         parkingLayer( this.state.showParking ),
         busStopLayer( this.state.showBusStops ),
-        carTrafficLayer( this.state.showCycleTraffic ),
-        cycleTrafficLayer( this.state.showCycleTraffic, this.state.extrudeCycleTraffic )
+        cycleTrafficLayer( this.state.showCycleTraffic, this.state.extrudeCycleTraffic ),
+        carTrafficLayer( this.state.showCarTraffic, this.state.extrudeCarTraffic )
       ]
 
     this.props.onLayerChange( layers )
@@ -77,13 +91,23 @@ class App extends React.Component {
           <Checkbox label="Bus Stops" ref="busStopCheck" type="checkbox" defaultChecked onChange={ this._toggleBusStops }/>
         </div>
         <div className="controller-option option-cycle-traffic">
-          <Checkbox label="Bicycle Traffic" ref="cycleTrafficCheck" type="checkbox" defaultChecked onChange={ this._toggleCycleTraffic }/>
+          <Checkbox label="Bicycle Traffic" ref="cycleTrafficCheck" type="checkbox" onChange={ this._toggleCycleTraffic }/>
         </div>
-        <div className="controller-option option-extrude-cycle-traffic">
+        <div className="controller-option option-extrude-checkbox">
         {
           this.state.showCycleTraffic ?
           <Checkbox label="Extrude Bicycle Traffic" ref="cycleTrafficCheck" type="checkbox" defaultChecked onChange={ this._toggleCycleTrafficExtrude }/> :
           <Checkbox label="Extrude Bicycle Traffic" ref="cycleTrafficCheck" type="checkbox" defaultChecked disabled onChange={ this._toggleCycleTrafficExtrude }/>
+        }
+        </div>
+        <div className="controller-option option-car-traffic">
+          <Checkbox label="Vehicle Traffic" ref="carTrafficCheck" type="checkbox" defaultChecked onChange={ this._toggleCarTraffic }/>
+        </div>
+        <div className="controller-option option-extrude-checkbox">
+        {
+          this.state.showCarTraffic ?
+          <Checkbox label="Extrude Vehicle Traffic" ref="carTrafficCheck" type="checkbox" defaultChecked onChange={ this._toggleCarTrafficExtrude }/> :
+          <Checkbox label="Extrude Vehicle Traffic" ref="carTrafficCheck" type="checkbox" defaultChecked disabled onChange={ this._toggleCarTrafficExtrude }/>
         }
         </div>
       </div>
