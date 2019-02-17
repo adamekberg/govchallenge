@@ -111,10 +111,10 @@ const cycleTrafficLayer = (show=true) => {
 }
 
 const carTrafficLayer = (show=true) => {
-  
-    function getColorValue(points) {
-      return points.reduce((a,c) => a + c.value, 0)
-    }
+
+  /*function getColorValue(points) {
+    return points.reduce((a,c) => a + c.value, 0)
+  }*/
   
     return new HexagonLayer({
       id: 'car-traffic-layer',
@@ -127,8 +127,8 @@ const carTrafficLayer = (show=true) => {
       getPosition: d => {
         return [ +d.long, +d.lat ]
       },
-      getColorValue,
-      getElevationValue: getColorValue,
+      //getColorValue,
+      //getElevationValue: getColorValue,
       visible: true,
       lightSettings: LIGHT_SETTINGS,
       opacity:1,
