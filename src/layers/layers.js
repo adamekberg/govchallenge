@@ -2,7 +2,7 @@ import { GeoJsonLayer, HexagonLayer } from 'deck.gl';
 
 import parkingData from '../data/Stockholm_Parking.json';
 import busStopData from '../data/bus_stops_geo.json';
-import cycleTrafficData from '../data/cleaned_cycle_data.json';
+import cycleTrafficData from '../data/cycle_data_final.json';
 import carTrafficData from '../data/cars_traffic_flow_coords.json';
 
 const colorRange = [
@@ -29,17 +29,16 @@ const parkingLayer = (show=true) => {
     data: parkingData,
     pickable: true,
     stroked: true,
-    filled: true,
+    filled: false,
     extruded: true,
     lineWidthScale: 20,
     lineWidthMinPixels: 2,
-    getFillColor: [160, 160, 180, 200],
-    getLineColor: [160, 160, 180, 200],
+    getFillColor: [200, 200, 255, 200],
+    getLineColor: [200, 200, 255, 200],
     getRadius: 100,
     getLineWidth: 1,
     getElevation: 0,
     visible: show,
-    // visible: this.state.showParking,
     // onHover: ({object, x, y}) => {
     //console.log('h', object)
     //   const tooltip = object.properties.name || object.properties.station;
@@ -58,27 +57,29 @@ const busStopLayer = (show=true) => {
     pickable: true,
     stroked: true,
     filled: true,
-    extruded: true,
+    // extruded: true,
     lineWidthScale: 20,
     lineWidthMinPixels: 2,
-    getFillColor: [300, 160, 180, 200],
-    getLineColor: [300, 160, 180, 200],
+    getFillColor: [255, 120, 255, 200],
+    getLineColor: [255, 120, 255, 200],
     getRadius: 10,
     getLineWidth: 1,
     getElevation: 0,
     visible: show,
-    // visible: this.state.showBusStops,
     // onHover: ({object, x, y}) => {
-    //console.log('h', object)
-    //   const tooltip = object.properties.name || object.properties.station;
-    //    Update tooltip
-    //      http://deck.gl/#/documentation/developer-guide/adding-interactivity?section=example-display-a-tooltip-for-hovered-object
+    // //console.log('h', object)
+    //   if(object) {
+    //     const tooltip = `${object.properties.StopPointName}
+    //       ${object.properties.StopPointNumber}`
 
+    //     // this.props.onHover(tooltip)
+    //   }
     // }
   })
+
 }
 
-const cycleTrafficLayer = (show=true) => {
+const cycleTrafficLayer = (show=true, extruded=true) => {
 
   function getColorValue(points) {
     return points.reduce((a,c) => a + c.value, 0)
@@ -88,7 +89,7 @@ const cycleTrafficLayer = (show=true) => {
     id: 'hexagon-layer',
     data: cycleTrafficData,
     pickable: true,
-    extruded: true,
+    extruded: extruded,
     radius: 20,
     elevationScale: 1,
     colorRange,
@@ -97,7 +98,6 @@ const cycleTrafficLayer = (show=true) => {
     },
     getColorValue,
     getElevationValue: getColorValue,
-    visible: true,
     lightSettings: LIGHT_SETTINGS,
     opacity:1,
     visible: show,
@@ -112,9 +112,9 @@ const cycleTrafficLayer = (show=true) => {
 
 const carTrafficLayer = (show=true) => {
 
-  /*function getColorValue(points) {
-    return points.reduce((a,c) => a + c.value, 0)
-  }*/
+  function getColorValue(points) {
+    return points.reduce((a,c) => a + +c.value, 0)
+  }
   
     return new HexagonLayer({
       id: 'car-traffic-layer',
@@ -127,8 +127,8 @@ const carTrafficLayer = (show=true) => {
       getPosition: d => {
         return [ +d.long, +d.lat ]
       },
-      //getColorValue,
-      //getElevationValue: getColorValue,
+      getColorValue,
+      getElevationValue: getColorValue,
       visible: true,
       lightSettings: LIGHT_SETTINGS,
       opacity:1,
@@ -174,6 +174,5 @@ export {
   parkingLayer,
   busStopLayer,
   cycleTrafficLayer,
-  carTrafficLayer,
-  buildingsLayer,
+  carTrafficLayer
 }
