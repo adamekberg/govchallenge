@@ -1,9 +1,9 @@
-import { GeoJsonLayer, HexagonLayer } from 'deck.gl';
+import { GeoJsonLayer, HexagonLayer } from "deck.gl";
 
-import parkingData from '../data/Stockholm_Parking.json';
-import busStopData from '../data/bus_stops_geo.json';
-import cycleTrafficData from '../data/cycle_data_final.json';
-import carTrafficData from '../data/cars_data_final.json';
+import parkingData from "../data/Stockholm_Parking.json";
+import busStopData from "../data/bus_stops_geo.json";
+import cycleTrafficData from "../data/cycle_data_final.json";
+import carTrafficData from "../data/cars_data_final.json";
 
 const colorRange = [
   [1, 152, 189],
@@ -23,9 +23,9 @@ const LIGHT_SETTINGS = {
   numberOfLights: 2
 };
 
-const parkingLayer = (show=true) => {
+const parkingLayer = (show = true) => {
   return new GeoJsonLayer({
-    id: 'parking-layer',
+    id: "parking-layer",
     data: parkingData,
     pickable: true,
     stroked: true,
@@ -38,7 +38,7 @@ const parkingLayer = (show=true) => {
     getRadius: 100,
     getLineWidth: 1,
     getElevation: 0,
-    visible: show,
+    visible: show
     // onHover: ({object, x, y}) => {
     //console.log('h', object)
     //   const tooltip = object.properties.name || object.properties.station;
@@ -46,13 +46,12 @@ const parkingLayer = (show=true) => {
     //      http://deck.gl/#/documentation/developer-guide/adding-interactivity?section=example-display-a-tooltip-for-hovered-object
 
     // }
-  })
-}
+  });
+};
 
-const busStopLayer = (show=true) => {
-
+const busStopLayer = (show = true) => {
   return new GeoJsonLayer({
-    id: 'bus-stop-layer',
+    id: "bus-stop-layer",
     data: busStopData,
     pickable: true,
     stroked: true,
@@ -65,7 +64,7 @@ const busStopLayer = (show=true) => {
     getRadius: 10,
     getLineWidth: 1,
     getElevation: 0,
-    visible: show,
+    visible: show
     // onHover: ({object, x, y}) => {
     // //console.log('h', object)
     //   if(object) {
@@ -75,18 +74,16 @@ const busStopLayer = (show=true) => {
     //     // this.props.onHover(tooltip)
     //   }
     // }
-  })
+  });
+};
 
-}
-
-const cycleTrafficLayer = (show=true, extruded=true) => {
-
+const cycleTrafficLayer = (show = true, extruded = true) => {
   function getColorValue(points) {
-    return points.reduce((a,c) => a + c.value, 0)
+    return points.reduce((a, c) => a + c.value, 0);
   }
 
   return new HexagonLayer({
-    id: 'hexagon-layer',
+    id: "hexagon-layer",
     data: cycleTrafficData,
     pickable: true,
     extruded: extruded,
@@ -94,79 +91,80 @@ const cycleTrafficLayer = (show=true, extruded=true) => {
     elevationScale: 1,
     colorRange,
     getPosition: d => {
-      return [ +d.long, +d.lat ]
+      return [+d.long, +d.lat];
     },
     getColorValue,
     getElevationValue: getColorValue,
     lightSettings: LIGHT_SETTINGS,
-    opacity:1,
-    visible: show,
+    opacity: 1,
+    visible: show
     // onHover: ({object, x, y}) => {
-      // const tooltip = `${object.centroid.join(', ')}\nCount: ${object.points.length}`;
-      /* Update tooltip
+    // const tooltip = `${object.centroid.join(', ')}\nCount: ${object.points.length}`;
+    /* Update tooltip
          http://deck.gl/#/documentation/developer-guide/adding-interactivity?section=example-display-a-tooltip-for-hovered-object
       */
     // }
-  })
-}
+  });
+};
 
-const carTrafficLayer = (show=true, extruded=true) => {
-
+const carTrafficLayer = (show = true, extruded = true) => {
   function getColorValue(points) {
-    return points.reduce((a,c) => a + +c.value, 0)
+    return points.reduce((a, c) => a + +c.value, 0);
   }
-  
-    return new HexagonLayer({
-      id: 'car-traffic-layer',
-      data: carTrafficData,
-      pickable: true,
-      extruded: extruded,
-      radius: 20,
-      elevationScale: 1,
-      colorRange,
-      getPosition: d => {
-        return [ +d.long, +d.lat ]
-      },
-      getColorValue,
-      getElevationValue: getColorValue,
-      visible: true,
-      lightSettings: LIGHT_SETTINGS,
-      opacity:1,
-      visible: show
-    })
-  }
+
+  return new HexagonLayer({
+    id: "car-traffic-layer",
+    data: carTrafficData,
+    pickable: true,
+    extruded: extruded,
+    radius: 20,
+    elevationScale: 1,
+    colorRange,
+    getPosition: d => {
+      return [+d.long, +d.lat];
+    },
+    getColorValue,
+    getElevationValue: getColorValue,
+    visible: true,
+    lightSettings: LIGHT_SETTINGS,
+    opacity: 1,
+    visible: show
+  });
+};
 
 const buildingsLayer = () => {
-
   return {
-    'id': '3d-buildings',
-    'source': 'composite',
-    'source-layer': 'building',
-    'filter': ['==', 'extrude', 'true'],
-    'type': 'fill-extrusion',
-    'minzoom': 15,
-    'paint': {
-      'fill-extrusion-color': '#aaa',
+    id: "3d-buildings",
+    source: "composite",
+    "source-layer": "building",
+    filter: ["==", "extrude", "true"],
+    type: "fill-extrusion",
+    minzoom: 15,
+    paint: {
+      "fill-extrusion-color": "#aaa",
       // use an 'interpolate' expression to add a smooth transition effect to the
       // buildings as the user zooms in
-      'fill-extrusion-height': [
-        "interpolate", ["linear"], ["zoom"],
-        15, 0,
-        15.05, ["get", "height"]
-        ],
-        'fill-extrusion-base': [
-        "interpolate", ["linear"], ["zoom"],
-        15, 0,
-        15.05, ["get", "min_height"]
-        ],
-        'fill-extrusion-opacity': .6
+      "fill-extrusion-height": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        15,
+        0,
+        15.05,
+        ["get", "height"]
+      ],
+      "fill-extrusion-base": [
+        "interpolate",
+        ["linear"],
+        ["zoom"],
+        15,
+        0,
+        15.05,
+        ["get", "min_height"]
+      ],
+      "fill-extrusion-opacity": 0.6
     }
-  }
-}
+  };
+};
 
-export {
-  parkingLayer,
-  busStopLayer,
-  cycleTrafficLayer,
-  carTrafficLayer
-}
+export { parkingLayer, busStopLayer, cycleTrafficLayer, carTrafficLayer };
