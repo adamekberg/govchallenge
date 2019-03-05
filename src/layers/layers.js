@@ -148,28 +148,8 @@ const carTrafficLayer = (show = true, extruded = true) => {
       lightSettings: LIGHT_SETTINGS,
       opacity:1,
       visible: show
-    })
+    });
 
-  }
-
-  return new HexagonLayer({
-    id: "car-traffic-layer",
-    data: carTrafficData,
-    pickable: true,
-    extruded: extruded,
-    radius: 20,
-    elevationScale: 1,
-    colorRange,
-    getPosition: d => {
-      return [+d.long, +d.lat];
-    },
-    getColorValue,
-    getElevationValue: getColorValue,
-    visible: true,
-    lightSettings: LIGHT_SETTINGS,
-    opacity: 1,
-    visible: show
-  });
 };
 
 const buildingsLayer = () => {

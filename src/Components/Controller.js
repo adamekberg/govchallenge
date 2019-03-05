@@ -106,6 +106,7 @@ class App extends React.Component {
             label="Bicycle Traffic"
             ref="cycleTrafficCheck"
             type="checkbox"
+            defaultChecked
             onChange={this._toggleCycleTraffic}
           />
 
@@ -147,7 +148,6 @@ class App extends React.Component {
               label="Extrude Vehicle Traffic"
               ref="carTrafficCheck"
               type="checkbox"
-              defaultChecked
               onChange={this._toggleCarTrafficExtrude}
             />
           ) : (
@@ -155,7 +155,6 @@ class App extends React.Component {
               label="Extrude Vehicle Traffic"
               ref="carTrafficCheck"
               type="checkbox"
-              defaultChecked
               disabled
               onChange={this._toggleCarTrafficExtrude}
             />
