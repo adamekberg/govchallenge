@@ -16,10 +16,10 @@ class App extends React.Component {
     this.state = {
       showParking: false,
       showBusStops: true,
-      showCycleTraffic: false,
+      showCycleTraffic: true,
       extrudeCycleTraffic: true,
       showCarTraffic: true,
-      extrudeCarTraffic: true
+      extrudeCarTraffic: false,
     };
   }
 
@@ -101,12 +101,14 @@ class App extends React.Component {
           />
         </div>
         <div className="controller-option option-cycle-traffic">
+
           <Checkbox
             label="Bicycle Traffic"
             ref="cycleTrafficCheck"
             type="checkbox"
             onChange={this._toggleCycleTraffic}
           />
+
         </div>
         <div className="controller-option option-extrude-checkbox">
           {this.state.showCycleTraffic ? (
@@ -139,6 +141,7 @@ class App extends React.Component {
           />
         </div>
         <div className="controller-option option-extrude-checkbox">
+
           {this.state.showCarTraffic ? (
             <Checkbox
               label="Extrude Vehicle Traffic"
@@ -157,6 +160,7 @@ class App extends React.Component {
               onChange={this._toggleCarTrafficExtrude}
             />
           )}
+
         </div>
 
         <div className="controller-option">
