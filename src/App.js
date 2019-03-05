@@ -108,7 +108,7 @@ class App extends React.Component {
         <Controller onLayerChange={this._onLayerChange} />
 
         <div className="footer">
-          2019 <a href="https://tylernwolf.com?ref=mobilityObserver" target="_blank">Tyler Wolf</a> and Adam Ekberg - Data Source:{" "}
+          2019 <a href="http://tylernwolf.com?ref=mobilityObserver" target="_blank">Tyler Wolf</a> and Adam Ekberg - Data Source:{" "}
           <a href="https://open.stockholm.se/" target="_blank">https://open.stockholm.se/</a>
         </div>
       </div>
