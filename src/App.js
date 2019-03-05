@@ -25,8 +25,6 @@ class App extends React.Component {
     super();
 
     this.state = {
-      showParking: true,
-      showBusStops: true,
       mapLayers: []
     };
   }

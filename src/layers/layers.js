@@ -1,4 +1,8 @@
-import { GeoJsonLayer, HexagonLayer } from 'deck.gl';
+import {
+  GeoJsonLayer,
+  HexagonLayer,
+  // ContourLayer,
+} from 'deck.gl';
 
 import parkingData from '../data/Stockholm_Parking.json';
 import busStopData from '../data/bus_stops_geo.json';
@@ -79,6 +83,22 @@ const busStopLayer = (show=true) => {
 
 }
 
+// const busCoverageLayer = (show=true) => {
+
+//   return new ContourLayer({
+//     id: 'contourLayer',
+//     // Three contours are rendered.
+//     contours: [
+//       {threshold: 1, color: [255, 0, 0, 255], strokeWidth: 1}, // => Isoline for threshold 1
+//       {threshold: 5, color: [0, 255, 0], strokeWidth: 2}, // => Isoline for threshold 5
+//       {threshold: [6, 10], color: [0, 0, 255, 128]} // => Isoband for threshold range [6, 10)
+//     ],
+//     cellSize: 200,
+//     getPosition: d => d.COORDINATES,
+//   })
+
+// }
+
 const cycleTrafficLayer = (show=true, extruded=true) => {
 
   function getColorValue(points) {
@@ -115,7 +135,7 @@ const carTrafficLayer = (show=true, extruded=true) => {
   function getColorValue(points) {
     return points.reduce((a,c) => a + +c.value, 0)
   }
-  
+
     return new HexagonLayer({
       id: 'car-traffic-layer',
       data: carTrafficData,
@@ -129,7 +149,6 @@ const carTrafficLayer = (show=true, extruded=true) => {
       },
       getColorValue,
       getElevationValue: getColorValue,
-      visible: true,
       lightSettings: LIGHT_SETTINGS,
       opacity:1,
       visible: show
