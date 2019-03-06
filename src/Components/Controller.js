@@ -6,6 +6,8 @@ import {
   carTrafficLayer
 } from "../layers/layers";
 import "../Controller.css";
+import { slide as Menu } from 'react-burger-menu'
+import { isMobile } from 'react-device-detect'
 
 import { Checkbox } from "semantic-ui-react";
 
@@ -18,7 +20,7 @@ class App extends React.Component {
       showBusStops: true,
       showCycleTraffic: true,
       extrudeCycleTraffic: true,
-      showCarTraffic: true,
+      showCarTraffic: !isMobile,
       extrudeCarTraffic: false,
     };
   }
@@ -79,7 +81,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="controller-container">
+      <Menu width={ 200 } className={ "controller-container" } right isOpen={ !isMobile } noOverlay disableOverlayClick >
         <h3>Stockholm Sustainable Traffic Planning</h3>
         <p>Toggle the checkboxes below to turn layers on&nbsp;and&nbsp;off</p>
 
@@ -137,7 +139,7 @@ class App extends React.Component {
             label="Vehicle Traffic"
             ref="carTrafficCheck"
             type="checkbox"
-            defaultChecked
+            defaultChecked={ !isMobile }
             onChange={this._toggleCarTraffic}
           />
         </div>
@@ -165,7 +167,8 @@ class App extends React.Component {
         <div className="controller-option">
           *right click and drag to rotate camera
         </div>
-      </div>
+
+      </Menu>
     );
   }
 }

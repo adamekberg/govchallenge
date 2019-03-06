@@ -7,7 +7,10 @@ import {
 import parkingData from "../data/Stockholm_Parking.json";
 import busStopData from "../data/bus_stops_geo.json";
 import cycleTrafficData from "../data/cycle_data_final.json";
-import carTrafficData from "../data/cars_data_final.json";
+import carTrafficData1 from "../data/cars_data_part1.json";
+import carTrafficData2 from "../data/cars_data_part2.json";
+
+const carTrafficData = carTrafficData1.concat(carTrafficData2)
 
 const colorRange = [
   [1, 152, 189],
