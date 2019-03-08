@@ -22,6 +22,7 @@ class App extends React.Component {
       extrudeCycleTraffic: true,
       showCarTraffic: !isMobile,
       extrudeCarTraffic: false,
+      menuOpen: !isMobile
     };
   }
 
@@ -79,9 +80,21 @@ class App extends React.Component {
     this._updateLayers();
   }
 
+  handleStateChange (state) {
+    this.setState({ menuOpen: state.isOpen })
+  }
+
   render() {
     return (
-      <Menu width={ 200 } className={ "controller-container" } right isOpen={ !isMobile } noOverlay disableOverlayClick >
+      <Menu
+        width={ 200 }
+        className={ "controller-container" }
+        right
+        noOverlay
+        disableOverlayClick
+        isOpen={ this.state.menuOpen }
+        onStateChange={(state) => this.handleStateChange(state) }
+        >
         <h3>Stockholm Sustainable Traffic Planning</h3>
         <p>Toggle the checkboxes below to turn layers on&nbsp;and&nbsp;off</p>
 
