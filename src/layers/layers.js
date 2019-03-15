@@ -100,7 +100,8 @@ const busStopLayer = (show = true) => {
 
 // }
 
-const cycleTrafficLayer = (show = true, extruded = true) => {
+const cycleTrafficLayer = (show = true, height=1) => {
+
   function getColorValue(points) {
     return points.reduce((a, c) => a + c.value, 0);
   }
@@ -109,9 +110,9 @@ const cycleTrafficLayer = (show = true, extruded = true) => {
     id: "hexagon-layer",
     data: cycleTrafficData,
     pickable: true,
-    extruded: extruded,
+    extruded: true,
     radius: 20,
-    elevationScale: 1,
+    elevationScale: height,
     colorRange,
     getPosition: d => {
       return [+d.long, +d.lat];
@@ -130,7 +131,7 @@ const cycleTrafficLayer = (show = true, extruded = true) => {
   });
 };
 
-const carTrafficLayer = (show = true, extruded = true) => {
+const carTrafficLayer = (show = true, height=0.01) => {
   function getColorValue(points) {
     return points.reduce((a,c) => a + +c.value, 0)
   }
@@ -139,9 +140,9 @@ const carTrafficLayer = (show = true, extruded = true) => {
       id: 'car-traffic-layer',
       data: carTrafficData,
       pickable: true,
-      extruded: extruded,
+      extruded: true,
       radius: 20,
-      elevationScale: 1,
+      elevationScale: height,
       colorRange,
       getPosition: d => {
         return [ +d.long, +d.lat ]
