@@ -91,7 +91,7 @@ class App extends React.Component {
 
     let t = new TWEEN.Tween(height)
       .to({ value: target }, 500)
-      .easing(TWEEN.Easing.Quadratic.Out)
+      .easing(TWEEN.Easing.Quadratic.InOut)
       .onUpdate(() => {
         setHeight( height.value )
         this._updateLayers()
