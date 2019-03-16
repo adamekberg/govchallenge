@@ -8,6 +8,7 @@ import {
 import "../Controller.css";
 import { slide as Menu } from 'react-burger-menu'
 import { isMobile } from 'react-device-detect'
+import TWEEN from '@tweenjs/tween.js'
 
 import { Checkbox } from "semantic-ui-react";
 
@@ -24,6 +25,9 @@ class App extends React.Component {
       extrudeCarTraffic: false,
       menuOpen: !isMobile
     };
+
+    this._cycleTrafficHeight = 1
+    this._carTrafficHeight = 0.01
   }
 
   _toggleParking = (e, { checked }) => {
@@ -46,6 +50,7 @@ class App extends React.Component {
 
   _toggleCycleTrafficExtrude = (e, { checked }) => {
     this.setState({ extrudeCycleTraffic: checked });
+    this._animateLayer( (v) => this._cycleTrafficHeight = v, checked )
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers, 0);
   };
@@ -58,6 +63,7 @@ class App extends React.Component {
 
   _toggleCarTrafficExtrude = (e, { checked }) => {
     this.setState({ extrudeCarTraffic: checked });
+    this._animateLayer( (v) => this._carTrafficHeight = v, checked )
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers, 0);
   };
@@ -68,16 +74,41 @@ class App extends React.Component {
       busStopLayer(this.state.showBusStops),
       cycleTrafficLayer(
         this.state.showCycleTraffic,
-        this.state.extrudeCycleTraffic
+        this._cycleTrafficHeight
       ),
-      carTrafficLayer(this.state.showCarTraffic, this.state.extrudeCarTraffic)
+      carTrafficLayer(
+        this.state.showCarTraffic,
+        this._carTrafficHeight
+      )
     ];
 
     this.props.onLayerChange(layers);
   };
 
+  _animateLayer = (setHeight, extrude) => {
+    let height = { value: extrude ? 0.01 : 1 },
+      target = extrude ? 1 : 0.01
+
+    let t = new TWEEN.Tween(height)
+      .to({ value: target }, 500)
+      .easing(TWEEN.Easing.Quadratic.InOut)
+      .onUpdate(() => {
+        setHeight( height.value )
+        this._updateLayers()
+      })
+      .start()
+
+  }
+
   componentDidMount() {
     this._updateLayers();
+
+    animate()
+
+    function animate() {
+      requestAnimationFrame( animate )
+      TWEEN.update()
+    }
   }
 
   handleStateChange (state) {
