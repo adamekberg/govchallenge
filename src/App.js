@@ -7,10 +7,6 @@ import Controller from "./Components/Controller";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
 
-// Set your mapbox access token here
-const MAPBOX_ACCESS_TOKEN =
-  "pk.eyJ1IjoiYWRhbWVrYmVyZyIsImEiOiJjamttcXdjeDMwZHd0M2tvemx1a3BnZ2h5In0.JtC9rUXVaxJ8ONGdfmPmsg";
-
 // Initial viewport settings
 const initialViewState = {
   longitude: 18.0686,
@@ -95,7 +91,7 @@ class App extends React.Component {
                 // save a reference to the mapboxgl.Map instance
                 this._map = ref && ref.getMap();
               }}
-              mapboxApiAccessToken={MAPBOX_ACCESS_TOKEN}
+              mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
               // gl={gl}
               onLoad={this._onMapLoad}
               mapStyle="mapbox://styles/mapbox/dark-v10"
