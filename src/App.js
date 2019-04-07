@@ -105,7 +105,7 @@ class App extends React.Component {
 
         <div className="footer">
           2019 - <a href="http://tylernwolf.com?ref=mobilityObserver" target="_blank">Tyler Wolf</a> and Adam Ekberg - Data Source:{" "}
-          <a href="https://open.stockholm.se/" target="_blank">https://open.stockholm.se/</a>
+          <a href="https://dataportalen.stockholm.se/dataportalen/" target="_blank">https://dataportalen.stockholm.se/dataportalen/</a>
         </div>
       </div>
     );
