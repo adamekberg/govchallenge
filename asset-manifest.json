@@ -1,15 +1,15 @@
 {
-  "main.css": "/static/css/main.2da4f72d.chunk.css",
-  "main.js": "/static/js/main.93a1886e.chunk.js",
-  "main.js.map": "/static/js/main.93a1886e.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
-  "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
-  "static/css/2.066bc913.chunk.css": "/static/css/2.066bc913.chunk.css",
-  "static/js/2.7a0fc990.chunk.js": "/static/js/2.7a0fc990.chunk.js",
-  "static/js/2.7a0fc990.chunk.js.map": "/static/js/2.7a0fc990.chunk.js.map",
-  "index.html": "/index.html",
-  "precache-manifest.4dc58e7cf016ebf330afaf94f96b2a75.js": "/precache-manifest.4dc58e7cf016ebf330afaf94f96b2a75.js",
-  "service-worker.js": "/service-worker.js",
-  "static/css/2.066bc913.chunk.css.map": "/static/css/2.066bc913.chunk.css.map",
-  "static/css/main.2da4f72d.chunk.css.map": "/static/css/main.2da4f72d.chunk.css.map"
+  "main.css": "/govchallenge/static/css/main.2da4f72d.chunk.css",
+  "main.js": "/govchallenge/static/js/main.1441595e.chunk.js",
+  "main.js.map": "/govchallenge/static/js/main.1441595e.chunk.js.map",
+  "runtime~main.js": "/govchallenge/static/js/runtime~main.94a6f3b6.js",
+  "runtime~main.js.map": "/govchallenge/static/js/runtime~main.94a6f3b6.js.map",
+  "static/css/2.066bc913.chunk.css": "/govchallenge/static/css/2.066bc913.chunk.css",
+  "static/js/2.8787a379.chunk.js": "/govchallenge/static/js/2.8787a379.chunk.js",
+  "static/js/2.8787a379.chunk.js.map": "/govchallenge/static/js/2.8787a379.chunk.js.map",
+  "index.html": "/govchallenge/index.html",
+  "precache-manifest.ecc7b9324051d4f81d7b27458cbdab0d.js": "/govchallenge/precache-manifest.ecc7b9324051d4f81d7b27458cbdab0d.js",
+  "service-worker.js": "/govchallenge/service-worker.js",
+  "static/css/2.066bc913.chunk.css.map": "/govchallenge/static/css/2.066bc913.chunk.css.map",
+  "static/css/main.2da4f72d.chunk.css.map": "/govchallenge/static/css/main.2da4f72d.chunk.css.map"
 }
