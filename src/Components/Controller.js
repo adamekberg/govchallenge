@@ -1,4 +1,6 @@
 import React from "react";
+
+import history from '../history';
 import {
   parkingLayer,
   busStopLayer,
@@ -6,63 +8,100 @@ import {
   carTrafficLayer
 } from "../layers/layers";
 import "../Controller.css";
+
 import { slide as Menu } from 'react-burger-menu'
 import { isMobile } from 'react-device-detect'
 import TWEEN from '@tweenjs/tween.js'
-
+import {
+  addUrlProps,
+  UrlQueryParamTypes,
+  replaceInUrlQuery,
+  decode,
+  encode,
+} from 'react-url-query';
 import { Checkbox } from "semantic-ui-react";
 
-class App extends React.Component {
-  constructor() {
-    super();
+function mapUrlToProps(url, props) {
+  console.log('url', url)
+  return {
+    showParking: decode(UrlQueryParamTypes.boolean, url.cp),
+    showBusStops: decode(UrlQueryParamTypes.boolean, url.bs),
+    showCycleTraffic: decode(UrlQueryParamTypes.boolean, url.bt),
+    extrudeCycleTraffic: decode(UrlQueryParamTypes.boolean, url.xbt),
+    showCarTraffic: decode(UrlQueryParamTypes.boolean, url.ct),
+    extrudeCarTraffic: decode(UrlQueryParamTypes.boolean, url.xct),
+    menuOpen: decode(UrlQueryParamTypes.boolean, url.m),
+  }
+}
 
-    this.state = {
-      showParking: false,
-      showBusStops: true,
-      showCycleTraffic: true,
-      extrudeCycleTraffic: true,
-      showCarTraffic: !isMobile,
-      extrudeCarTraffic: false,
-      menuOpen: !isMobile
-    };
+function mapUrlChangeHandlersToProps(props) {
 
-    this._cycleTrafficHeight = 1
-    this._carTrafficHeight = 0.01
+  return {
+    onChange: (value) => {
+      console.log('v', value)
+      replaceInUrlQuery('cp', encode(UrlQueryParamTypes.boolean, value.showParking));
+      replaceInUrlQuery('bs', encode(UrlQueryParamTypes.boolean, value.showBusStops));
+      replaceInUrlQuery('bt', encode(UrlQueryParamTypes.boolean, value.showCycleTraffic));
+      replaceInUrlQuery('xbt', encode(UrlQueryParamTypes.boolean, value.extrudeCycleTraffic));
+      replaceInUrlQuery('ct', encode(UrlQueryParamTypes.boolean, value.showCarTraffic));
+      replaceInUrlQuery('xct', encode(UrlQueryParamTypes.boolean, value.extrudeCarTraffic));
+      replaceInUrlQuery('m', encode(UrlQueryParamTypes.boolean, value.menuOpen));
+    }
+  }
+}
+
+class Controller extends React.Component {
+  static defaultProps = {
+    showParking: false,
+    showBusStops: true,
+    showCycleTraffic: true,
+    extrudeCycleTraffic: true,
+    showCarTraffic: !isMobile,
+    extrudeCarTraffic: false,
+    menuOpen: !isMobile,
+    onLayerChange: () => {}
+  }
+
+  constructor(props) {
+    super(props);
+
+    this._cycleTrafficHeight = props.extrudeCycleTraffic ? 1 : 0.01;
+    this._carTrafficHeight = props.extrudeCarTraffic ? 1 : 0.01;
   }
 
   _toggleParking = (e, { checked }) => {
-    this.setState({ showParking: checked });
+    this.props.onChange({ ...this.props, showParking: checked });
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers, 0);
   };
 
   _toggleBusStops = (e, { checked }) => {
-    this.setState({ showBusStops: checked });
+    this.props.onChange({ ...this.props, showBusStops: checked });
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers, 0);
   };
 
   _toggleCycleTraffic = (e, { checked }) => {
-    this.setState({ showCycleTraffic: checked });
+    this.props.onChange({ ...this.props, showCycleTraffic: checked });
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers, 0);
   };
 
   _toggleCycleTrafficExtrude = (e, { checked }) => {
-    this.setState({ extrudeCycleTraffic: checked });
+    this.props.onChange({ ...this.props, extrudeCycleTraffic: checked });
     this._animateLayer( (v) => this._cycleTrafficHeight = v, checked )
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers, 0);
   };
 
   _toggleCarTraffic = (e, { checked }) => {
-    this.setState({ showCarTraffic: checked });
+    this.props.onChange({ ...this.props, showCarTraffic: checked });
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers, 0);
   };
 
   _toggleCarTrafficExtrude = (e, { checked }) => {
-    this.setState({ extrudeCarTraffic: checked });
+    this.props.onChange({ ...this.props, extrudeCarTraffic: checked });
     this._animateLayer( (v) => this._carTrafficHeight = v, checked )
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers, 0);
@@ -70,14 +109,14 @@ class App extends React.Component {
 
   _updateLayers = () => {
     let layers = [
-      parkingLayer(this.state.showParking),
-      busStopLayer(this.state.showBusStops),
+      parkingLayer(this.props.showParking),
+      busStopLayer(this.props.showBusStops),
       cycleTrafficLayer(
-        this.state.showCycleTraffic,
+        this.props.showCycleTraffic,
         this._cycleTrafficHeight
       ),
       carTrafficLayer(
-        this.state.showCarTraffic,
+        this.props.showCarTraffic,
         this._carTrafficHeight
       )
     ];
@@ -89,7 +128,7 @@ class App extends React.Component {
     let height = { value: extrude ? 0.01 : 1 },
       target = extrude ? 1 : 0.01
 
-    let t = new TWEEN.Tween(height)
+    new TWEEN.Tween(height)
       .to({ value: target }, 500)
       .easing(TWEEN.Easing.Quadratic.InOut)
       .onUpdate(() => {
@@ -109,10 +148,8 @@ class App extends React.Component {
       requestAnimationFrame( animate )
       TWEEN.update()
     }
-  }
 
-  handleStateChange (state) {
-    this.setState({ menuOpen: state.isOpen })
+    history.listen(() => this.forceUpdate());
   }
 
   render() {
@@ -123,8 +160,8 @@ class App extends React.Component {
         right
         noOverlay
         disableOverlayClick
-        isOpen={ this.state.menuOpen }
-        onStateChange={(state) => this.handleStateChange(state) }
+        isOpen={ this.props.menuOpen }
+        onStateChange={(state) => this.props.onChange({ ...this.props, menuOpen: state.isOpen }) }
         >
         <h3>Stockholm Sustainable Traffic Planning</h3>
         <p>Toggle the checkboxes below to turn layers on&nbsp;and&nbsp;off</p>
@@ -142,7 +179,7 @@ class App extends React.Component {
             label="Bus Stops"
             ref="busStopCheck"
             type="checkbox"
-            defaultChecked
+            defaultChecked={ this.props.showBusStops }
             onChange={this._toggleBusStops}
           />
         </div>
@@ -152,18 +189,18 @@ class App extends React.Component {
             label="Bicycle Traffic"
             ref="cycleTrafficCheck"
             type="checkbox"
-            defaultChecked
+            defaultChecked={ this.props.showCycleTraffic }
             onChange={this._toggleCycleTraffic}
           />
 
         </div>
         <div className="controller-option option-extrude-checkbox">
-          {this.state.showCycleTraffic ? (
+          {this.props.showCycleTraffic ? (
             <Checkbox
               label="Extrude Bicycle Traffic"
               ref="cycleTrafficCheck"
               type="checkbox"
-              defaultChecked
+              defaultChecked={ this.props.extrudeCycleTraffic }
               onChange={this._toggleCycleTrafficExtrude}
             />
           ) : (
@@ -171,7 +208,7 @@ class App extends React.Component {
               label="Extrude Bicycle Traffic"
               ref="cycleTrafficCheck"
               type="checkbox"
-              defaultChecked
+              defaultChecked={ this.props.extrudeCycleTraffic }
               disabled
               onChange={this._toggleCycleTrafficExtrude}
             />
@@ -183,13 +220,13 @@ class App extends React.Component {
             label="Vehicle Traffic"
             ref="carTrafficCheck"
             type="checkbox"
-            defaultChecked={ !isMobile }
+            defaultChecked={ this.props.showCarTraffic }
             onChange={this._toggleCarTraffic}
           />
         </div>
         <div className="controller-option option-extrude-checkbox">
 
-          {this.state.showCarTraffic ? (
+          {this.props.showCarTraffic ? (
             <Checkbox
               label="Extrude Vehicle Traffic"
               ref="carTrafficCheck"
@@ -217,4 +254,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default addUrlProps({ mapUrlToProps, mapUrlChangeHandlersToProps })(Controller);

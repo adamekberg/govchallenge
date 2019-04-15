@@ -3,6 +3,11 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import { configureUrlQuery } from 'react-url-query';
+
+import history from './history';
+
+configureUrlQuery({ history });
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
