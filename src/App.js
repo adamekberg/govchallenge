@@ -1,11 +1,41 @@
 import React from "react";
 import DeckGL from "deck.gl";
 import MapGL from "react-map-gl";
+import {
+  addUrlProps,
+  UrlQueryParamTypes,
+  replaceInUrlQuery,
+  decode,
+  encode,
+} from 'react-url-query';
 
+import history from './history';
 import Controller from "./Components/Controller";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
+
+function mapUrlToProps(url, props) {
+  return {
+    longitude: decode(UrlQueryParamTypes.number, url.lng) || 18.0686,
+    latitude: decode(UrlQueryParamTypes.number, url.lat) || 59.3293,
+    zoom: decode(UrlQueryParamTypes.number, url.z) || 13,
+    pitch: decode(UrlQueryParamTypes.number, url.p) || 45,
+    bearing: decode(UrlQueryParamTypes.number, url.b) || 0,
+  }
+}
+
+function mapUrlChangeHandlersToProps(props) {
+  return {
+    onChange: (value) => {
+      replaceInUrlQuery('lng', encode(UrlQueryParamTypes.number, value.longitude));
+      replaceInUrlQuery('lat', encode(UrlQueryParamTypes.number, value.latitude));
+      replaceInUrlQuery('z', encode(UrlQueryParamTypes.number, value.zoom.toFixed(1)));
+      replaceInUrlQuery('p', encode(UrlQueryParamTypes.number, value.pitch.toFixed(1)));
+      replaceInUrlQuery('b', encode(UrlQueryParamTypes.number, value.bearing.toFixed(1)));
+    }
+  }
+}
 
 // Initial viewport settings
 const initialViewState = {
@@ -13,10 +43,12 @@ const initialViewState = {
   latitude: 59.3293,
   zoom: 13,
   pitch: 45,
-  bearing: 0
+  bearing: 0,
 };
 
 class App extends React.Component {
+  static defaultProps = initialViewState
+
   constructor() {
     super();
 
@@ -62,10 +94,21 @@ class App extends React.Component {
     );
   }
 
+  _updateUrl({viewState}) {
+    clearTimeout(this.urlTimer);
+
+    this.urlTimer = setTimeout(() => {
+      this.props.onChange(viewState)
+    },500);
+
+  }
+
   componentDidMount() {
     document
       .getElementById("container")
       .addEventListener("contextmenu", evt => evt.preventDefault());
+
+    history.listen(() => this.forceUpdate());
   }
 
   render() {
@@ -81,7 +124,8 @@ class App extends React.Component {
             this._deck = ref && ref.deck;
           }}
           onWebGLInitialized={this._onWebGLInitialized}
-          initialViewState={initialViewState}
+          initialViewState={this.props}
+          onViewStateChange={ viewport => this._updateUrl(viewport) }
           controller={true}
           layers={layers}
         >
@@ -112,4 +156,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default addUrlProps({ mapUrlToProps, mapUrlChangeHandlersToProps })(App);

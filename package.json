@@ -7,12 +7,14 @@
     "@tweenjs/tween.js": "^17.3.0",
     "deck.gl": "^6.4.0",
     "geojson": "^0.5.0",
-    "react": "^16.7.0",
+    "history": "^4.9.0",
+    "react": "^16.8.6",
     "react-burger-menu": "^2.6.5",
     "react-device-detect": "^1.6.2",
-    "react-dom": "^16.7.0",
+    "react-dom": "^16.8.6",
     "react-map-gl": "^4.0.10",
     "react-scripts": "^2.1.8",
+    "react-url-query": "^1.4.0",
     "semantic-ui-react": "^0.84.0"
   },
   "scripts": {
