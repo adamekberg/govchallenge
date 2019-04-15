@@ -1,6 +1,6 @@
 import React from "react";
 
-import history from '../history';
+import history from "../history";
 import {
   parkingLayer,
   busStopLayer,
@@ -9,20 +9,20 @@ import {
 } from "../layers/layers";
 import "../Controller.css";
 
-import { slide as Menu } from 'react-burger-menu'
-import { isMobile } from 'react-device-detect'
-import TWEEN from '@tweenjs/tween.js'
+import { slide as Menu } from "react-burger-menu";
+import { isMobile } from "react-device-detect";
+import TWEEN from "@tweenjs/tween.js";
 import {
   addUrlProps,
   UrlQueryParamTypes,
   replaceInUrlQuery,
   decode,
-  encode,
-} from 'react-url-query';
+  encode
+} from "react-url-query";
 import { Checkbox } from "semantic-ui-react";
 
 function mapUrlToProps(url, props) {
-  console.log('url', url)
+  console.log("url", url);
   return {
     showParking: decode(UrlQueryParamTypes.boolean, url.cp),
     showBusStops: decode(UrlQueryParamTypes.boolean, url.bs),
@@ -30,24 +30,44 @@ function mapUrlToProps(url, props) {
     extrudeCycleTraffic: decode(UrlQueryParamTypes.boolean, url.xbt),
     showCarTraffic: decode(UrlQueryParamTypes.boolean, url.ct),
     extrudeCarTraffic: decode(UrlQueryParamTypes.boolean, url.xct),
-    menuOpen: decode(UrlQueryParamTypes.boolean, url.m),
-  }
+    menuOpen: decode(UrlQueryParamTypes.boolean, url.m)
+  };
 }
 
 function mapUrlChangeHandlersToProps(props) {
-
   return {
-    onChange: (value) => {
-      console.log('v', value)
-      replaceInUrlQuery('cp', encode(UrlQueryParamTypes.boolean, value.showParking));
-      replaceInUrlQuery('bs', encode(UrlQueryParamTypes.boolean, value.showBusStops));
-      replaceInUrlQuery('bt', encode(UrlQueryParamTypes.boolean, value.showCycleTraffic));
-      replaceInUrlQuery('xbt', encode(UrlQueryParamTypes.boolean, value.extrudeCycleTraffic));
-      replaceInUrlQuery('ct', encode(UrlQueryParamTypes.boolean, value.showCarTraffic));
-      replaceInUrlQuery('xct', encode(UrlQueryParamTypes.boolean, value.extrudeCarTraffic));
-      replaceInUrlQuery('m', encode(UrlQueryParamTypes.boolean, value.menuOpen));
+    onChange: value => {
+      console.log("v", value);
+      replaceInUrlQuery(
+        "cp",
+        encode(UrlQueryParamTypes.boolean, value.showParking)
+      );
+      replaceInUrlQuery(
+        "bs",
+        encode(UrlQueryParamTypes.boolean, value.showBusStops)
+      );
+      replaceInUrlQuery(
+        "bt",
+        encode(UrlQueryParamTypes.boolean, value.showCycleTraffic)
+      );
+      replaceInUrlQuery(
+        "xbt",
+        encode(UrlQueryParamTypes.boolean, value.extrudeCycleTraffic)
+      );
+      replaceInUrlQuery(
+        "ct",
+        encode(UrlQueryParamTypes.boolean, value.showCarTraffic)
+      );
+      replaceInUrlQuery(
+        "xct",
+        encode(UrlQueryParamTypes.boolean, value.extrudeCarTraffic)
+      );
+      replaceInUrlQuery(
+        "m",
+        encode(UrlQueryParamTypes.boolean, value.menuOpen)
+      );
     }
-  }
+  };
 }
 
 class Controller extends React.Component {
@@ -60,7 +80,7 @@ class Controller extends React.Component {
     extrudeCarTraffic: false,
     menuOpen: !isMobile,
     onLayerChange: () => {}
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -89,7 +109,7 @@ class Controller extends React.Component {
 
   _toggleCycleTrafficExtrude = (e, { checked }) => {
     this.props.onChange({ ...this.props, extrudeCycleTraffic: checked });
-    this._animateLayer( (v) => this._cycleTrafficHeight = v, checked )
+    this._animateLayer(v => (this._cycleTrafficHeight = v), checked);
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers, 0);
   };
@@ -102,7 +122,7 @@ class Controller extends React.Component {
 
   _toggleCarTrafficExtrude = (e, { checked }) => {
     this.props.onChange({ ...this.props, extrudeCarTraffic: checked });
-    this._animateLayer( (v) => this._carTrafficHeight = v, checked )
+    this._animateLayer(v => (this._carTrafficHeight = v), checked);
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers, 0);
   };
@@ -111,14 +131,8 @@ class Controller extends React.Component {
     let layers = [
       parkingLayer(this.props.showParking),
       busStopLayer(this.props.showBusStops),
-      cycleTrafficLayer(
-        this.props.showCycleTraffic,
-        this._cycleTrafficHeight
-      ),
-      carTrafficLayer(
-        this.props.showCarTraffic,
-        this._carTrafficHeight
-      )
+      cycleTrafficLayer(this.props.showCycleTraffic, this._cycleTrafficHeight),
+      carTrafficLayer(this.props.showCarTraffic, this._carTrafficHeight)
     ];
 
     this.props.onLayerChange(layers);
@@ -126,27 +140,26 @@ class Controller extends React.Component {
 
   _animateLayer = (setHeight, extrude) => {
     let height = { value: extrude ? 0.01 : 1 },
-      target = extrude ? 1 : 0.01
+      target = extrude ? 1 : 0.01;
 
     new TWEEN.Tween(height)
       .to({ value: target }, 500)
       .easing(TWEEN.Easing.Quadratic.InOut)
       .onUpdate(() => {
-        setHeight( height.value )
-        this._updateLayers()
+        setHeight(height.value);
+        this._updateLayers();
       })
-      .start()
-
-  }
+      .start();
+  };
 
   componentDidMount() {
     this._updateLayers();
 
-    animate()
+    animate();
 
     function animate() {
-      requestAnimationFrame( animate )
-      TWEEN.update()
+      requestAnimationFrame(animate);
+      TWEEN.update();
     }
 
     history.listen(() => this.forceUpdate());
@@ -155,14 +168,16 @@ class Controller extends React.Component {
   render() {
     return (
       <Menu
-        width={ 200 }
-        className={ "controller-container" }
+        width={200}
+        className={"controller-container"}
         right
         noOverlay
         disableOverlayClick
-        isOpen={ this.props.menuOpen }
-        onStateChange={(state) => this.props.onChange({ ...this.props, menuOpen: state.isOpen }) }
-        >
+        isOpen={this.props.menuOpen}
+        onStateChange={state =>
+          this.props.onChange({ ...this.props, menuOpen: state.isOpen })
+        }
+      >
         <h3>Stockholm Sustainable Traffic Planning</h3>
         <p>Toggle the checkboxes below to turn layers on&nbsp;and&nbsp;off</p>
 
@@ -171,6 +186,7 @@ class Controller extends React.Component {
             label="Parking"
             ref="parkingCheck"
             type="checkbox"
+            defaultChecked={this.props.showParking}
             onChange={this._toggleParking}
           />
         </div>
@@ -179,20 +195,18 @@ class Controller extends React.Component {
             label="Bus Stops"
             ref="busStopCheck"
             type="checkbox"
-            defaultChecked={ this.props.showBusStops }
+            defaultChecked={this.props.showBusStops}
             onChange={this._toggleBusStops}
           />
         </div>
         <div className="controller-option option-cycle-traffic">
-
           <Checkbox
             label="Bicycle Traffic"
             ref="cycleTrafficCheck"
             type="checkbox"
-            defaultChecked={ this.props.showCycleTraffic }
+            defaultChecked={this.props.showCycleTraffic}
             onChange={this._toggleCycleTraffic}
           />
-
         </div>
         <div className="controller-option option-extrude-checkbox">
           {this.props.showCycleTraffic ? (
@@ -200,7 +214,7 @@ class Controller extends React.Component {
               label="Extrude Bicycle Traffic"
               ref="cycleTrafficCheck"
               type="checkbox"
-              defaultChecked={ this.props.extrudeCycleTraffic }
+              defaultChecked={this.props.extrudeCycleTraffic}
               onChange={this._toggleCycleTrafficExtrude}
             />
           ) : (
@@ -208,7 +222,7 @@ class Controller extends React.Component {
               label="Extrude Bicycle Traffic"
               ref="cycleTrafficCheck"
               type="checkbox"
-              defaultChecked={ this.props.extrudeCycleTraffic }
+              defaultChecked={this.props.extrudeCycleTraffic}
               disabled
               onChange={this._toggleCycleTrafficExtrude}
             />
@@ -220,17 +234,17 @@ class Controller extends React.Component {
             label="Vehicle Traffic"
             ref="carTrafficCheck"
             type="checkbox"
-            defaultChecked={ this.props.showCarTraffic }
+            defaultChecked={this.props.showCarTraffic}
             onChange={this._toggleCarTraffic}
           />
         </div>
         <div className="controller-option option-extrude-checkbox">
-
           {this.props.showCarTraffic ? (
             <Checkbox
               label="Extrude Vehicle Traffic"
               ref="carTrafficCheck"
               type="checkbox"
+              defaultChecked={this.props.extrudeCarTraffic}
               onChange={this._toggleCarTrafficExtrude}
             />
           ) : (
@@ -238,20 +252,21 @@ class Controller extends React.Component {
               label="Extrude Vehicle Traffic"
               ref="carTrafficCheck"
               type="checkbox"
+              defaultChecked={this.props.extrudeCarTraffic}
               disabled
               onChange={this._toggleCarTrafficExtrude}
             />
           )}
-
         </div>
 
         <div className="controller-option">
           *right click and drag to rotate camera
         </div>
-
       </Menu>
     );
   }
 }
 
-export default addUrlProps({ mapUrlToProps, mapUrlChangeHandlersToProps })(Controller);
+export default addUrlProps({ mapUrlToProps, mapUrlChangeHandlersToProps })(
+  Controller
+);
