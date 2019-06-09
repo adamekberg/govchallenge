@@ -1,0 +1,16 @@
+[
+  {
+    "avatar_url": "https://deck.gl/images/icon-atlas.png",
+    "name": "Colma (COLM)",
+    "address": "365 D Street, Colma CA 94014",
+    "exits": 4214,
+    "coordinates": [18.0686, 59.3293]
+  },
+  {
+    "avatar_url": "https://deck.gl/images/icon-atlas.png",
+    "name": "Colma (COLM)",
+    "address": "365 D Street, Colma CA 94014",
+    "exits": 4214,
+    "coordinates": [59.3293, 18.0686]
+  }
+]
