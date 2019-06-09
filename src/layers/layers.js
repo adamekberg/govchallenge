@@ -1,10 +1,9 @@
 import {
   GeoJsonLayer,
-  HexagonLayer
+  HexagonLayer,
+  IconLayer
   // ContourLayer,
 } from "deck.gl";
-
-import { IconLayer } from "@deck.gl/layers";
 
 import parkingData from "../data/Stockholm_Parking.json";
 import busStopData from "../data/bus_stops_geo.json";
@@ -12,6 +11,8 @@ import cycleTrafficData from "../data/cycle_data_final.json";
 import carTrafficData1 from "../data/cars_data_part1.json";
 import carTrafficData2 from "../data/cars_data_part2.json";
 import evChargingData from "../data/ev_charging_final.json";
+
+import evChargingImage from "../images/icon-atlas.png";
 
 const carTrafficData = carTrafficData1.concat(carTrafficData2);
 
@@ -31,10 +32,6 @@ const LIGHT_SETTINGS = {
   specularRatio: 0.2,
   lightsStrength: [0.8, 0.0, 0.8, 0.0],
   numberOfLights: 2
-};
-
-const ICON_MAPPING = {
-  marker: { x: 0, y: 0, width: 32, height: 32, mask: true }
 };
 
 const parkingLayer = (show = true) => {
@@ -161,48 +158,23 @@ const carTrafficLayer = (show = true, height = 0.01) => {
   });
 };
 
-// const evChargingLayer = (show = true, height = 5) => {
-//   function getColorValue(points) {
-//     return points.reduce((a, c) => a + +c.numberOfPoints, 0);
-//   }
-
-//   return new HexagonLayer({
-//     id: "ev-charging-layer",
-//     data: evChargingData,
-//     pickable: true,
-//     extruded: true,
-//     radius: 100,
-//     elevationScale: height,
-//     colorRange,
-//     getPosition: d => {
-//       return [+d.long, +d.lat];
-//     },
-//     getColorValue,
-//     getElevationValue: getColorValue,
-//     lightSettings: LIGHT_SETTINGS,
-//     opacity: 1,
-//     visible: show
-//   });
-// };
-
 const evChargingLayer = (show = true) => {
   return new IconLayer({
     id: "ev-charging-layer",
-    evChargingData,
+    data: evChargingData,
     pickable: true,
-    //iconAtlas: process.env.PUBLIC_URL + "/icon-atlas.png",
-    //iconAtlas: "images/icon-atlas.png",
-    //iconMapping: ICON_MAPPING,
-    getIcon: d => ({
-      url: d.avatar_url,
-      width: 128,
-      height: 128,
-      anchorY: 128
-    }),
+    iconAtlas: evChargingImage,
+    iconMapping: {
+      marker: { x: 0, y: 0, width: 128, height: 128, mask: true }
+    },
+    getIcon: d => "marker",
     sizeScale: 15,
-    getPosition: d => d.coordinates,
-    getSize: d => 5,
-    getColor: d => [Math.sqrt(d.exits), 140, 0]
+    getPosition: d => {
+      return [+d.long, +d.lat];
+    },
+    getSize: d => 2,
+    getColor: d => [Math.sqrt(d.exits), 140, 0],
+    visible: show
   });
 };
 

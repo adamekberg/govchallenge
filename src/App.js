@@ -6,10 +6,10 @@ import {
   UrlQueryParamTypes,
   replaceInUrlQuery,
   decode,
-  encode,
-} from 'react-url-query';
+  encode
+} from "react-url-query";
 
-import history from './history';
+import history from "./history";
 import Controller from "./Components/Controller";
 
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -21,20 +21,35 @@ function mapUrlToProps(url, props) {
     latitude: decode(UrlQueryParamTypes.number, url.lat) || 59.3293,
     zoom: decode(UrlQueryParamTypes.number, url.z) || 13,
     pitch: decode(UrlQueryParamTypes.number, url.p) || 45,
-    bearing: decode(UrlQueryParamTypes.number, url.b) || 0,
-  }
+    bearing: decode(UrlQueryParamTypes.number, url.b) || 0
+  };
 }
 
 function mapUrlChangeHandlersToProps(props) {
   return {
-    onChange: (value) => {
-      replaceInUrlQuery('lng', encode(UrlQueryParamTypes.number, value.longitude));
-      replaceInUrlQuery('lat', encode(UrlQueryParamTypes.number, value.latitude));
-      replaceInUrlQuery('z', encode(UrlQueryParamTypes.number, value.zoom.toFixed(1)));
-      replaceInUrlQuery('p', encode(UrlQueryParamTypes.number, value.pitch.toFixed(1)));
-      replaceInUrlQuery('b', encode(UrlQueryParamTypes.number, value.bearing.toFixed(1)));
+    onChange: value => {
+      replaceInUrlQuery(
+        "lng",
+        encode(UrlQueryParamTypes.number, value.longitude)
+      );
+      replaceInUrlQuery(
+        "lat",
+        encode(UrlQueryParamTypes.number, value.latitude)
+      );
+      replaceInUrlQuery(
+        "z",
+        encode(UrlQueryParamTypes.number, value.zoom.toFixed(1))
+      );
+      replaceInUrlQuery(
+        "p",
+        encode(UrlQueryParamTypes.number, value.pitch.toFixed(1))
+      );
+      replaceInUrlQuery(
+        "b",
+        encode(UrlQueryParamTypes.number, value.bearing.toFixed(1))
+      );
     }
-  }
+  };
 }
 
 // Initial viewport settings
@@ -43,11 +58,11 @@ const initialViewState = {
   latitude: 59.3293,
   zoom: 13,
   pitch: 45,
-  bearing: 0,
+  bearing: 0
 };
 
 class App extends React.Component {
-  static defaultProps = initialViewState
+  static defaultProps = initialViewState;
 
   constructor() {
     super();
@@ -94,13 +109,13 @@ class App extends React.Component {
     );
   }
 
-  _updateUrl({viewState}) {
+  _updateUrl({ viewState }) {
+    console.log(viewState);
     clearTimeout(this.urlTimer);
 
     this.urlTimer = setTimeout(() => {
-      this.props.onChange(viewState)
-    },500);
-
+      this.props.onChange(viewState);
+    }, 500);
   }
 
   componentDidMount() {
@@ -125,7 +140,7 @@ class App extends React.Component {
           }}
           onWebGLInitialized={this._onWebGLInitialized}
           initialViewState={this.props}
-          onViewStateChange={ viewport => this._updateUrl(viewport) }
+          onViewStateChange={viewport => this._updateUrl(viewport)}
           controller={true}
           layers={layers}
         >
@@ -148,8 +163,17 @@ class App extends React.Component {
         <Controller onLayerChange={this._onLayerChange} />
 
         <div className="footer">
-          2019 - <a href="http://tylernwolf.com?ref=mobilityObserver" target="_blank">Tyler Wolf</a> and Adam Ekberg - Data Source:{" "}
-          <a href="https://dataportalen.stockholm.se/dataportalen/" target="_blank">https://dataportalen.stockholm.se/dataportalen/</a>
+          2019 -{" "}
+          <a href="http://tylernwolf.com?ref=mobilityObserver" target="_blank">
+            Tyler Wolf
+          </a>{" "}
+          and Adam Ekberg - Data Source:{" "}
+          <a
+            href="https://dataportalen.stockholm.se/dataportalen/"
+            target="_blank"
+          >
+            https://dataportalen.stockholm.se/dataportalen/
+          </a>
         </div>
       </div>
     );
