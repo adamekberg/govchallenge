@@ -11,6 +11,11 @@ import cycleTrafficData from "../data/cycle_data_final.json";
 import carTrafficData1 from "../data/cars_data_part1.json";
 import carTrafficData2 from "../data/cars_data_part2.json";
 import evChargingData from "../data/ev_charging_final.json";
+import ferryBerthData from "../data/ferry_berths_points.json";
+import metroStationData from "../data/metro_stations_points.json";
+import railStationData from "../data/rail_stations_points.json";
+import shipBerthData from "../data/ship_berths_points.json";
+import tramStationData from "../data/tram_stations_points.json";
 
 import evChargingImage from "../images/icon-atlas.png";
 
@@ -85,6 +90,101 @@ const busStopLayer = (show = true) => {
     //     // this.props.onHover(tooltip)
     //   }
     // }
+  });
+};
+
+const ferryBerthLayer = (show = true) => {
+  return new GeoJsonLayer({
+    id: "ferry-berths-layer",
+    data: ferryBerthData,
+    pickable: true,
+    stroked: true,
+    filled: true,
+    // extruded: true,
+    lineWidthScale: 20,
+    lineWidthMinPixels: 2,
+    getFillColor: [255, 120, 255, 200],
+    getLineColor: [255, 120, 255, 200],
+    getRadius: 10,
+    getLineWidth: 1,
+    getElevation: 0,
+    visible: show
+  });
+};
+
+const metroStationLayer = (show = true) => {
+  return new GeoJsonLayer({
+    id: "metro-station-layer",
+    data: metroStationData,
+    pickable: true,
+    stroked: true,
+    filled: true,
+    // extruded: true,
+    lineWidthScale: 20,
+    lineWidthMinPixels: 2,
+    getFillColor: [255, 120, 255, 200],
+    getLineColor: [255, 120, 255, 200],
+    getRadius: 10,
+    getLineWidth: 1,
+    getElevation: 0,
+    visible: show
+  });
+};
+
+const railStationLayer = (show = true) => {
+  return new GeoJsonLayer({
+    id: "rail-station-layer",
+    data: railStationData,
+    pickable: true,
+    stroked: true,
+    filled: true,
+    // extruded: true,
+    lineWidthScale: 20,
+    lineWidthMinPixels: 2,
+    getFillColor: [255, 120, 255, 200],
+    getLineColor: [255, 120, 255, 200],
+    getRadius: 10,
+    getLineWidth: 1,
+    getElevation: 0,
+    visible: show
+  });
+};
+
+const shipBerthLayer = (show = true) => {
+  return new GeoJsonLayer({
+    id: "ship-berth-layer",
+    data: shipBerthData,
+    pickable: true,
+    stroked: true,
+    filled: true,
+    // extruded: true,
+    lineWidthScale: 20,
+    lineWidthMinPixels: 2,
+    getFillColor: [255, 120, 255, 200],
+    getLineColor: [255, 120, 255, 200],
+    getRadius: 10,
+    getLineWidth: 1,
+    getElevation: 0,
+    visible: show
+  });
+};
+
+const tramStationLayer = (show = true) => {
+  return new GeoJsonLayer({
+    id: "tram-station-layer",
+    data: tramStationData,
+    pickable: true,
+    stroked: true,
+    filled: true,
+    // extruded: true,
+    lineWidthScale: 20,
+    lineWidthMinPixels: 2,
+    getFillColor: [255, 120, 255, 200],
+    getLineColor: [255, 120, 255, 200],
+    getRadius: 10,
+    getLineWidth: 1,
+    getElevation: 0,
+    visible: show
   });
 };
 
@@ -175,6 +275,14 @@ const evChargingLayer = (show = true) => {
     getSize: d => 2,
     getColor: d => [Math.sqrt(d.exits), 140, 0],
     visible: show
+    // onHover: (
+    //   info //console.log("info: ", info)
+    // ) =>
+    //   this.setState({
+    //     hoveredObject: info.object,
+    //     pointerX: info.x,
+    //     pointerY: info.y
+    //   })
   });
 };
 
@@ -218,5 +326,10 @@ export {
   busStopLayer,
   cycleTrafficLayer,
   carTrafficLayer,
-  evChargingLayer
+  evChargingLayer,
+  ferryBerthLayer,
+  metroStationLayer,
+  railStationLayer,
+  shipBerthLayer,
+  tramStationLayer
 };

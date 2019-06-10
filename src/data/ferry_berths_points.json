@@ -1,0 +1,101 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.5359003101269, 59.3913587927794]
+      },
+      "properties": {
+        "StopPointNumber": "15831",
+        "StopPointName": "Sjöängen",
+        "StopAreaNumber": "15831",
+        "ZoneShortName": "B",
+        "StopAreaTypeCode": "FERRYBER",
+        "LastModifiedUtcDateTime": "2014-06-03 00:00:00.000",
+        "ExistsFromDate": "2014-06-03 00:00:00.000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [17.5259847735785, 59.3847500754616]
+      },
+      "properties": {
+        "StopPointNumber": "15832",
+        "StopPointName": "Adelsö",
+        "StopAreaNumber": "15832",
+        "ZoneShortName": "B",
+        "StopAreaTypeCode": "FERRYBER",
+        "LastModifiedUtcDateTime": "2014-06-03 00:00:00.000",
+        "ExistsFromDate": "2014-06-03 00:00:00.000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.3647092413807, 59.4035022814025]
+      },
+      "properties": {
+        "StopPointNumber": "39640",
+        "StopPointName": "Rindö smedja",
+        "StopAreaNumber": "39640",
+        "ZoneShortName": "B",
+        "StopAreaTypeCode": "FERRYBER",
+        "LastModifiedUtcDateTime": "2014-06-03 00:00:00.000",
+        "ExistsFromDate": "2014-06-03 00:00:00.000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.3496982831865, 59.400392103566]
+      },
+      "properties": {
+        "StopPointNumber": "39641",
+        "StopPointName": "Västerhamnsplan",
+        "StopAreaNumber": "39641",
+        "ZoneShortName": "B",
+        "StopAreaTypeCode": "FERRYBER",
+        "LastModifiedUtcDateTime": "2014-06-03 00:00:00.000",
+        "ExistsFromDate": "2014-06-03 00:00:00.000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.4488156464645, 59.3967244866947]
+      },
+      "properties": {
+        "StopPointNumber": "39642",
+        "StopPointName": "Stenslätten",
+        "StopAreaNumber": "39642",
+        "ZoneShortName": "C",
+        "StopAreaTypeCode": "FERRYBER",
+        "LastModifiedUtcDateTime": "2015-09-24 00:00:00.000",
+        "ExistsFromDate": "2015-09-24 00:00:00.000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [18.4408430822731, 59.3956553577928]
+      },
+      "properties": {
+        "StopPointNumber": "39643",
+        "StopPointName": "Oskar Fredriksborg",
+        "StopAreaNumber": "39643",
+        "ZoneShortName": "B",
+        "StopAreaTypeCode": "FERRYBER",
+        "LastModifiedUtcDateTime": "2014-06-03 00:00:00.000",
+        "ExistsFromDate": "2014-06-03 00:00:00.000"
+      }
+    }
+  ]
+}

@@ -15,3 +15,7 @@ fs.writeFileSync(
   "../data/ev_charging_final.json",
   JSON.stringify(result, null, 4)
 );
+
+// Manually removed since its in norway
+// "Latitude": 71.107949
+// "Longitude": 25.8121315999999
