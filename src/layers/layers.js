@@ -1,16 +1,20 @@
 import {
   GeoJsonLayer,
   HexagonLayer,
+  IconLayer
   // ContourLayer,
-} from 'deck.gl';
+} from "deck.gl";
 
 import parkingData from "../data/Stockholm_Parking.json";
 import busStopData from "../data/bus_stops_geo.json";
 import cycleTrafficData from "../data/cycle_data_final.json";
 import carTrafficData1 from "../data/cars_data_part1.json";
 import carTrafficData2 from "../data/cars_data_part2.json";
+import evChargingData from "../data/ev_charging_final.json";
 
-const carTrafficData = carTrafficData1.concat(carTrafficData2)
+import evChargingImage from "../images/icon-atlas.png";
+
+const carTrafficData = carTrafficData1.concat(carTrafficData2);
 
 const colorRange = [
   [1, 152, 189],
@@ -100,8 +104,7 @@ const busStopLayer = (show = true) => {
 
 // }
 
-const cycleTrafficLayer = (show = true, height=1) => {
-
+const cycleTrafficLayer = (show = true, height = 1) => {
   function getColorValue(points) {
     return points.reduce((a, c) => a + c.value, 0);
   }
@@ -131,29 +134,48 @@ const cycleTrafficLayer = (show = true, height=1) => {
   });
 };
 
-const carTrafficLayer = (show = true, height=0.01) => {
+const carTrafficLayer = (show = true, height = 0.01) => {
   function getColorValue(points) {
-    return points.reduce((a,c) => a + +c.value, 0)
+    return points.reduce((a, c) => a + +c.value, 0);
   }
 
-    return new HexagonLayer({
-      id: 'car-traffic-layer',
-      data: carTrafficData,
-      pickable: true,
-      extruded: true,
-      radius: 20,
-      elevationScale: height,
-      colorRange,
-      getPosition: d => {
-        return [ +d.long, +d.lat ]
-      },
-      getColorValue,
-      getElevationValue: getColorValue,
-      lightSettings: LIGHT_SETTINGS,
-      opacity:1,
-      visible: show
-    });
+  return new HexagonLayer({
+    id: "car-traffic-layer",
+    data: carTrafficData,
+    pickable: true,
+    extruded: true,
+    radius: 20,
+    elevationScale: height,
+    colorRange,
+    getPosition: d => {
+      return [+d.long, +d.lat];
+    },
+    getColorValue,
+    getElevationValue: getColorValue,
+    lightSettings: LIGHT_SETTINGS,
+    opacity: 1,
+    visible: show
+  });
+};
 
+const evChargingLayer = (show = true) => {
+  return new IconLayer({
+    id: "ev-charging-layer",
+    data: evChargingData,
+    pickable: true,
+    iconAtlas: evChargingImage,
+    iconMapping: {
+      marker: { x: 0, y: 0, width: 128, height: 128, mask: true }
+    },
+    getIcon: d => "marker",
+    sizeScale: 15,
+    getPosition: d => {
+      return [+d.long, +d.lat];
+    },
+    getSize: d => 2,
+    getColor: d => [Math.sqrt(d.exits), 140, 0],
+    visible: show
+  });
 };
 
 const buildingsLayer = () => {
@@ -191,4 +213,10 @@ const buildingsLayer = () => {
   };
 };
 
-export { parkingLayer, busStopLayer, cycleTrafficLayer, carTrafficLayer };
+export {
+  parkingLayer,
+  busStopLayer,
+  cycleTrafficLayer,
+  carTrafficLayer,
+  evChargingLayer
+};

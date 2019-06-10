@@ -5,7 +5,8 @@ import {
   parkingLayer,
   busStopLayer,
   cycleTrafficLayer,
-  carTrafficLayer
+  carTrafficLayer,
+  evChargingLayer
 } from "../layers/layers";
 import "../Controller.css";
 
@@ -22,7 +23,6 @@ import {
 import { Checkbox } from "semantic-ui-react";
 
 function mapUrlToProps(url, props) {
-  console.log("url", url);
   return {
     showParking: decode(UrlQueryParamTypes.boolean, url.cp),
     showBusStops: decode(UrlQueryParamTypes.boolean, url.bs),
@@ -30,6 +30,7 @@ function mapUrlToProps(url, props) {
     extrudeCycleTraffic: decode(UrlQueryParamTypes.boolean, url.xbt),
     showCarTraffic: decode(UrlQueryParamTypes.boolean, url.ct),
     extrudeCarTraffic: decode(UrlQueryParamTypes.boolean, url.xct),
+    showEvCharging: decode(UrlQueryParamTypes.boolean, url.evc),
     menuOpen: decode(UrlQueryParamTypes.boolean, url.m)
   };
 }
@@ -37,7 +38,6 @@ function mapUrlToProps(url, props) {
 function mapUrlChangeHandlersToProps(props) {
   return {
     onChange: value => {
-      console.log("v", value);
       replaceInUrlQuery(
         "cp",
         encode(UrlQueryParamTypes.boolean, value.showParking)
@@ -63,6 +63,10 @@ function mapUrlChangeHandlersToProps(props) {
         encode(UrlQueryParamTypes.boolean, value.extrudeCarTraffic)
       );
       replaceInUrlQuery(
+        "evc",
+        encode(UrlQueryParamTypes.boolean, value.showEvCharging)
+      );
+      replaceInUrlQuery(
         "m",
         encode(UrlQueryParamTypes.boolean, value.menuOpen)
       );
@@ -78,6 +82,7 @@ class Controller extends React.Component {
     extrudeCycleTraffic: true,
     showCarTraffic: !isMobile,
     extrudeCarTraffic: false,
+    showEvCharging: true,
     menuOpen: !isMobile,
     onLayerChange: () => {}
   };
@@ -127,12 +132,19 @@ class Controller extends React.Component {
     setTimeout(this._updateLayers, 0);
   };
 
+  _toggleEvCharging = (e, { checked }) => {
+    this.props.onChange({ ...this.props, showEvCharging: checked });
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers, 0);
+  };
+
   _updateLayers = () => {
     let layers = [
       parkingLayer(this.props.showParking),
       busStopLayer(this.props.showBusStops),
       cycleTrafficLayer(this.props.showCycleTraffic, this._cycleTrafficHeight),
-      carTrafficLayer(this.props.showCarTraffic, this._carTrafficHeight)
+      carTrafficLayer(this.props.showCarTraffic, this._carTrafficHeight),
+      evChargingLayer(this.props.showEvCharging)
     ];
 
     this.props.onLayerChange(layers);
@@ -257,6 +269,16 @@ class Controller extends React.Component {
               onChange={this._toggleCarTrafficExtrude}
             />
           )}
+        </div>
+
+        <div className="controller-option option-ev-charging">
+          <Checkbox
+            label="Electric vehicle charging stations"
+            ref="evChargingCheck"
+            type="checkbox"
+            defaultChecked={this.props.showEvCharging}
+            onChange={this._toggleEvCharging}
+          />
         </div>
 
         <div className="controller-option">
