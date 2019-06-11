@@ -1,24 +1,26 @@
 import {
-  GeoJsonLayer
+  PolygonLayer
 } from "deck.gl";
 
 import parkingData from "../data/Stockholm_Parking.json";
+import { MAP_COLORS } from '../constants';
 
 const parkingLayer = (show = true) => {
-  return new GeoJsonLayer({
+  return new PolygonLayer({
     id: "parking-layer",
-    data: parkingData,
+    data: parkingData.features.map(d => d.geometry),
     pickable: true,
     stroked: true,
-    filled: false,
-    extruded: true,
-    lineWidthScale: 20,
-    lineWidthMinPixels: 2,
-    getFillColor: [200, 200, 255, 200],
-    getLineColor: [200, 200, 255, 200],
-    getRadius: 100,
+    filled: true,
+    // extruded: true,
+    // lineWidthScale: 20,
+    // lineWidthMinPixels: 2,
+    getPolygon: d => d.coordinates,
+    getFillColor: [0, 0, 0, 64],
+    getLineColor: [...MAP_COLORS[4], 200],
+    // getRadius: 100,
     getLineWidth: 1,
-    getElevation: 0,
+    // getElevation: 2,
     visible: show
     // onHover: ({object, x, y}) => {
     //console.log('h', object)

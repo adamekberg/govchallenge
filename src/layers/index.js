@@ -22,6 +22,7 @@ let metroStationLayer = () => {}
 let railStationLayer = () => {}
 let ferryStopLayer = () => {}
 let tramStationLayer = () => {}
+let stockholmAreaLayers = () => {}
 
 import('./parkingLayer').then(layer => {
   parkingLayer = layer.default
@@ -63,6 +64,10 @@ import('./tramStationLayer').then(layer => {
   tramStationLayer = layer.default
   layers.layerLoaded()
 })
+import('./stockholmAreaLayers').then(layer => {
+  stockholmAreaLayers = layer.default
+  layers.layerLoaded()
+})
 
 
 // layerFiles.forEach(lf => {
@@ -99,7 +104,8 @@ const layers = {
       metroStationLayer(layerSettings.showMetroStops),
       railStationLayer(layerSettings.showRailStops),
       ferryStopLayer(layerSettings.showShipStops),
-      tramStationLayer(layerSettings.showTramStops)
+      tramStationLayer(layerSettings.showTramStops),
+      stockholmAreaLayers
     ]
   },
 
