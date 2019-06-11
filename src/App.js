@@ -1,56 +1,13 @@
 import React from "react";
 import DeckGL from "deck.gl";
 import MapGL from "react-map-gl";
-import {
-  addUrlProps,
-  UrlQueryParamTypes,
-  replaceInUrlQuery,
-  decode,
-  encode
-} from "react-url-query";
 
 import history from "./history";
+import { mapUrlManager } from './services/urlManagement.service'
 import Controller from "./Components/Controller";
 
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./App.css";
-
-function mapUrlToProps(url, props) {
-  return {
-    longitude: decode(UrlQueryParamTypes.number, url.lng) || 18.0686,
-    latitude: decode(UrlQueryParamTypes.number, url.lat) || 59.3293,
-    zoom: decode(UrlQueryParamTypes.number, url.z) || 13,
-    pitch: decode(UrlQueryParamTypes.number, url.p) || 45,
-    bearing: decode(UrlQueryParamTypes.number, url.b) || 0
-  };
-}
-
-function mapUrlChangeHandlersToProps(props) {
-  return {
-    onChange: value => {
-      replaceInUrlQuery(
-        "lng",
-        encode(UrlQueryParamTypes.number, value.longitude)
-      );
-      replaceInUrlQuery(
-        "lat",
-        encode(UrlQueryParamTypes.number, value.latitude)
-      );
-      replaceInUrlQuery(
-        "z",
-        encode(UrlQueryParamTypes.number, value.zoom.toFixed(1))
-      );
-      replaceInUrlQuery(
-        "p",
-        encode(UrlQueryParamTypes.number, value.pitch.toFixed(1))
-      );
-      replaceInUrlQuery(
-        "b",
-        encode(UrlQueryParamTypes.number, value.bearing.toFixed(1))
-      );
-    }
-  };
-}
 
 // Initial viewport settings
 const initialViewState = {
@@ -164,13 +121,14 @@ class App extends React.Component {
 
         <div className="footer">
           2019 -{" "}
-          <a href="http://tylernwolf.com?ref=mobilityObserver" target="_blank">
+          <a href="http://tylernwolf.com?ref=mobilityObserver" target="_blank" rel="noopener noreferrer">
             Tyler Wolf
           </a>{" "}
           and Adam Ekberg - Data Source:{" "}
           <a
             href="https://dataportalen.stockholm.se/dataportalen/"
             target="_blank"
+            rel="noopener noreferrer"
           >
             https://dataportalen.stockholm.se/dataportalen/
           </a>
@@ -180,4 +138,4 @@ class App extends React.Component {
   }
 }
 
-export default addUrlProps({ mapUrlToProps, mapUrlChangeHandlersToProps })(App);
+export default mapUrlManager(App);

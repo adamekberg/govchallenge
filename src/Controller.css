@@ -43,6 +43,11 @@
   margin-bottom: 1em;
 }
 
-.option-extrude-checkbox {
+.option-secondary-checkbox {
   margin-left: 1em;
+}
+
+.controller-option.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
