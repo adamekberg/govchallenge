@@ -17,7 +17,7 @@ const evChargingLayer = (show = true, toolTipcallback) => {
     getPosition: d => {
       return [+d.long, +d.lat];
     },
-    getSize: d => 3,
+    getSize: d => 2.5,
     getColor: d => [Math.sqrt(d.exits), 140, 0],
     visible: show,
     onHover: info => {
