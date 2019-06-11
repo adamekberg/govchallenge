@@ -3,7 +3,7 @@ import DeckGL from "deck.gl";
 import MapGL from "react-map-gl";
 
 import history from "./history";
-import { mapUrlManager } from './services/urlManagement.service'
+import { mapUrlManager } from "./services/urlManagement.service";
 import Controller from "./Components/Controller";
 
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -47,6 +47,14 @@ class App extends React.Component {
     this.setState({ mapLayers });
   };
 
+  _toolTipCallback = info => {
+    this.setState({
+      hoveredObject: info.object,
+      pointerX: info.x,
+      pointerY: info.y
+    });
+  };
+
   _renderTooltip() {
     const { hoveredObject, pointerX, pointerY } = this.state || {};
     return (
@@ -57,7 +65,11 @@ class App extends React.Component {
             zIndex: 1,
             pointerEvents: "none",
             left: pointerX,
-            top: pointerY
+            top: pointerY,
+            color: "green",
+            backgroundColor: "white",
+            fontFamily: "Open Sans",
+            padding: 5
           }}
         >
           {hoveredObject.message}
@@ -117,11 +129,18 @@ class App extends React.Component {
           {this._renderTooltip()}
         </DeckGL>
 
-        <Controller onLayerChange={this._onLayerChange} />
+        <Controller
+          onLayerChange={this._onLayerChange}
+          toolTipCallback={this._toolTipCallback}
+        />
 
         <div className="footer">
           2019 -{" "}
-          <a href="http://tylernwolf.com?ref=mobilityObserver" target="_blank" rel="noopener noreferrer">
+          <a
+            href="http://tylernwolf.com?ref=mobilityObserver"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             Tyler Wolf
           </a>{" "}
           and Adam Ekberg - Data Source:{" "}

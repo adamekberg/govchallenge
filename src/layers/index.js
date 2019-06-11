@@ -12,58 +12,57 @@ import TWEEN from "@tweenjs/tween.js";
 // import tramStationLayer from './tramStationLayer'
 // import busCoverageLayer from './busCoverageLayer'
 
-let parkingLayer = () => {}
-let busStopLayer = () => {}
-let carFerryStopLayer = () => {}
-let bikeTrafficLayer = () => {}
-let carTrafficLayer = () => {}
-let evChargingLayer = () => {}
-let metroStationLayer = () => {}
-let railStationLayer = () => {}
-let ferryStopLayer = () => {}
-let tramStationLayer = () => {}
+let parkingLayer = () => {};
+let busStopLayer = () => {};
+let carFerryStopLayer = () => {};
+let bikeTrafficLayer = () => {};
+let carTrafficLayer = () => {};
+let evChargingLayer = () => {};
+let metroStationLayer = () => {};
+let railStationLayer = () => {};
+let ferryStopLayer = () => {};
+let tramStationLayer = () => {};
 
-import('./parkingLayer').then(layer => {
-  parkingLayer = layer.default
-  layers.layerLoaded()
-})
-import('./busStopLayer').then(layer => {
-  busStopLayer = layer.default
-  layers.layerLoaded()
-})
-import('./carFerryStopLayer').then(layer => {
-  carFerryStopLayer = layer.default
-  layers.layerLoaded()
-})
-import('./bikeTrafficLayer').then(layer => {
-  bikeTrafficLayer = layer.default
-  layers.layerLoaded()
-})
-import('./carTrafficLayer').then(layer => {
-  carTrafficLayer = layer.default
-  layers.layerLoaded()
-})
-import('./evChargingLayer').then(layer => {
-  evChargingLayer = layer.default
-  layers.layerLoaded()
-})
-import('./metroStationLayer').then(layer => {
-  metroStationLayer = layer.default
-  layers.layerLoaded()
-})
-import('./railStationLayer').then(layer => {
-  railStationLayer = layer.default
-  layers.layerLoaded()
-})
-import('./ferryStopLayer').then(layer => {
-  ferryStopLayer = layer.default
-  layers.layerLoaded()
-})
-import('./tramStationLayer').then(layer => {
-  tramStationLayer = layer.default
-  layers.layerLoaded()
-})
-
+import("./parkingLayer").then(layer => {
+  parkingLayer = layer.default;
+  layers.layerLoaded();
+});
+import("./busStopLayer").then(layer => {
+  busStopLayer = layer.default;
+  layers.layerLoaded();
+});
+import("./carFerryStopLayer").then(layer => {
+  carFerryStopLayer = layer.default;
+  layers.layerLoaded();
+});
+import("./bikeTrafficLayer").then(layer => {
+  bikeTrafficLayer = layer.default;
+  layers.layerLoaded();
+});
+import("./carTrafficLayer").then(layer => {
+  carTrafficLayer = layer.default;
+  layers.layerLoaded();
+});
+import("./evChargingLayer").then(layer => {
+  evChargingLayer = layer.default;
+  layers.layerLoaded();
+});
+import("./metroStationLayer").then(layer => {
+  metroStationLayer = layer.default;
+  layers.layerLoaded();
+});
+import("./railStationLayer").then(layer => {
+  railStationLayer = layer.default;
+  layers.layerLoaded();
+});
+import("./ferryStopLayer").then(layer => {
+  ferryStopLayer = layer.default;
+  layers.layerLoaded();
+});
+import("./tramStationLayer").then(layer => {
+  tramStationLayer = layer.default;
+  layers.layerLoaded();
+});
 
 // layerFiles.forEach(lf => {
 //   import(lf).then(layer => {
@@ -71,7 +70,6 @@ import('./tramStationLayer').then(layer => {
 //     console.log('al', allLayers)
 //   })
 // })
-
 
 function animate() {
   requestAnimationFrame(animate);
@@ -81,26 +79,34 @@ function animate() {
 animate();
 
 const layers = {
-
-  layerLoaded() { },
+  layerLoaded() {},
 
   onLayerLoaded(cb) {
-    layers.layerLoaded = cb
+    layers.layerLoaded = cb;
   },
 
   setLayers(layerSettings) {
     return [
       parkingLayer(layerSettings.showParking),
-      bikeTrafficLayer(layerSettings.showBikeTraffic, layerSettings._bikeTrafficHeight),
-      carTrafficLayer(layerSettings.showCarTraffic, layerSettings._carTrafficHeight),
-      evChargingLayer(layerSettings.showEvCharging),
+      bikeTrafficLayer(
+        layerSettings.showBikeTraffic,
+        layerSettings._bikeTrafficHeight
+      ),
+      carTrafficLayer(
+        layerSettings.showCarTraffic,
+        layerSettings._carTrafficHeight
+      ),
+      evChargingLayer(
+        layerSettings.showEvCharging,
+        layerSettings.toolTipCallback
+      ),
       busStopLayer(layerSettings.showBusStops),
       carFerryStopLayer(layerSettings.showFerryStops),
       metroStationLayer(layerSettings.showMetroStops),
       railStationLayer(layerSettings.showRailStops),
       ferryStopLayer(layerSettings.showShipStops),
       tramStationLayer(layerSettings.showTramStops)
-    ]
+    ];
   },
 
   animateLayer(setHeight, extrude, cb) {
@@ -116,8 +122,7 @@ const layers = {
       })
       .start();
   }
-
-}
+};
 
 export {
   parkingLayer,
@@ -132,4 +137,4 @@ export {
   tramStationLayer
 };
 
-export default layers
+export default layers;

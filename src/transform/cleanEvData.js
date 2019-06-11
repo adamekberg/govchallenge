@@ -7,7 +7,7 @@ for (i = 0; i < evSpots.length; i++) {
   var coordsObj = new Object();
   coordsObj.lat = evSpots[i].AddressInfo.Latitude;
   coordsObj.long = evSpots[i].AddressInfo.Longitude;
-  coordsObj.numberOfPoints = evSpots[i].NumberOfPoints;
+  coordsObj.message = "Charging spots: " + evSpots[i].NumberOfPoints;
   result.push(coordsObj);
 }
 

@@ -1,11 +1,9 @@
-import {
-  IconLayer
-} from "deck.gl";
+import { IconLayer } from "deck.gl";
 
 import evChargingData from "../data/ev_charging_final.json";
 import evChargingImage from "../images/icon-atlas.png";
 
-const evChargingLayer = (show = true) => {
+const evChargingLayer = (show = true, toolTipcallback) => {
   return new IconLayer({
     id: "ev-charging-layer",
     data: evChargingData,
@@ -19,17 +17,12 @@ const evChargingLayer = (show = true) => {
     getPosition: d => {
       return [+d.long, +d.lat];
     },
-    getSize: d => 2,
+    getSize: d => 3,
     getColor: d => [Math.sqrt(d.exits), 140, 0],
-    visible: show
-    // onHover: (
-    //   info //console.log("info: ", info)
-    // ) =>
-    //   this.setState({
-    //     hoveredObject: info.object,
-    //     pointerX: info.x,
-    //     pointerY: info.y
-    //   })
+    visible: show,
+    onHover: info => {
+      toolTipcallback(info);
+    }
   });
 };
 
