@@ -16,7 +16,26 @@ const HEXAGON_COLOR_RANGE = [
   [209, 55, 78]
 ];
 
+// const MAP_COLORS = [
+//   '#3B27BA',
+//   '#e847AE',
+//   '#13CA91',
+//   '#FF9472',
+  // '#79FFFE',
+//   '#EBF875'
+// ]
+
+const MAP_COLORS = [
+  [59, 39, 186],
+  [232, 71, 174],
+  [19, 202, 145],
+  [255, 148, 114],
+  [121, 255, 254],
+  [235, 248, 117]
+]
+
 export {
   LIGHT_SETTINGS,
-  HEXAGON_COLOR_RANGE
+  HEXAGON_COLOR_RANGE,
+  MAP_COLORS
 }
