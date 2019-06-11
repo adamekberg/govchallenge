@@ -1,12 +1,13 @@
 import {
-  PolygonLayer
+  PolygonLayer,
+  PathLayer
 } from "deck.gl";
 
 import parkingData from "../data/Stockholm_Parking.json";
 import { MAP_COLORS } from '../constants';
 
 const parkingLayer = (show = true) => {
-  return new PolygonLayer({
+  return new PathLayer({
     id: "parking-layer",
     data: parkingData.features.map(d => d.geometry),
     pickable: true,
@@ -15,11 +16,11 @@ const parkingLayer = (show = true) => {
     // extruded: true,
     // lineWidthScale: 20,
     // lineWidthMinPixels: 2,
-    getPolygon: d => d.coordinates,
+    getPath: d => d.coordinates,
     getFillColor: [0, 0, 0, 64],
-    getLineColor: [...MAP_COLORS[4], 200],
+    getColor: [...MAP_COLORS[4], 200],
     // getRadius: 100,
-    getLineWidth: 1,
+    getWidth: 5,
     // getElevation: 2,
     visible: show
     // onHover: ({object, x, y}) => {
