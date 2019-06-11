@@ -3,10 +3,15 @@ import React from "react";
 import history from "../history";
 import {
   parkingLayer,
-  busStopLayer,
   cycleTrafficLayer,
   carTrafficLayer,
-  evChargingLayer
+  evChargingLayer,
+  busStopLayer,
+  ferryBerthLayer,
+  metroStationLayer,
+  railStationLayer,
+  shipBerthLayer,
+  tramStationLayer
 } from "../layers/layers";
 import "../Controller.css";
 
@@ -25,13 +30,18 @@ import { Checkbox } from "semantic-ui-react";
 function mapUrlToProps(url, props) {
   return {
     showParking: decode(UrlQueryParamTypes.boolean, url.cp),
-    showBusStops: decode(UrlQueryParamTypes.boolean, url.bs),
     showCycleTraffic: decode(UrlQueryParamTypes.boolean, url.bt),
     extrudeCycleTraffic: decode(UrlQueryParamTypes.boolean, url.xbt),
     showCarTraffic: decode(UrlQueryParamTypes.boolean, url.ct),
     extrudeCarTraffic: decode(UrlQueryParamTypes.boolean, url.xct),
     showEvCharging: decode(UrlQueryParamTypes.boolean, url.evc),
-    menuOpen: decode(UrlQueryParamTypes.boolean, url.m)
+    menuOpen: decode(UrlQueryParamTypes.boolean, url.m),
+    showBusStops: decode(UrlQueryParamTypes.boolean, url.bs),
+    showFerryStops: decode(UrlQueryParamTypes.boolean, url.fs),
+    showMetroStops: decode(UrlQueryParamTypes.boolean, url.ms),
+    showRailStops: decode(UrlQueryParamTypes.boolean, url.rs),
+    showShipStops: decode(UrlQueryParamTypes.boolean, url.ss),
+    showTramStops: decode(UrlQueryParamTypes.boolean, url.ts)
   };
 }
 
@@ -41,10 +51,6 @@ function mapUrlChangeHandlersToProps(props) {
       replaceInUrlQuery(
         "cp",
         encode(UrlQueryParamTypes.boolean, value.showParking)
-      );
-      replaceInUrlQuery(
-        "bs",
-        encode(UrlQueryParamTypes.boolean, value.showBusStops)
       );
       replaceInUrlQuery(
         "bt",
@@ -70,6 +76,30 @@ function mapUrlChangeHandlersToProps(props) {
         "m",
         encode(UrlQueryParamTypes.boolean, value.menuOpen)
       );
+      replaceInUrlQuery(
+        "bs",
+        encode(UrlQueryParamTypes.boolean, value.showBusStops)
+      );
+      replaceInUrlQuery(
+        "fs",
+        encode(UrlQueryParamTypes.boolean, value.showFerryStops)
+      );
+      replaceInUrlQuery(
+        "ms",
+        encode(UrlQueryParamTypes.boolean, value.showMetroStops)
+      );
+      replaceInUrlQuery(
+        "rs",
+        encode(UrlQueryParamTypes.boolean, value.showRailStops)
+      );
+      replaceInUrlQuery(
+        "ss",
+        encode(UrlQueryParamTypes.boolean, value.showShipStops)
+      );
+      replaceInUrlQuery(
+        "ts",
+        encode(UrlQueryParamTypes.boolean, value.showTramStops)
+      );
     }
   };
 }
@@ -77,14 +107,19 @@ function mapUrlChangeHandlersToProps(props) {
 class Controller extends React.Component {
   static defaultProps = {
     showParking: false,
-    showBusStops: true,
     showCycleTraffic: true,
     extrudeCycleTraffic: true,
     showCarTraffic: !isMobile,
     extrudeCarTraffic: false,
     showEvCharging: true,
     menuOpen: !isMobile,
-    onLayerChange: () => {}
+    onLayerChange: () => {},
+    showBusStops: true,
+    showFerryStops: true,
+    showMetroStops: true,
+    showRailStops: true,
+    showShipStops: true,
+    showTramStops: true
   };
 
   constructor(props) {
@@ -96,12 +131,6 @@ class Controller extends React.Component {
 
   _toggleParking = (e, { checked }) => {
     this.props.onChange({ ...this.props, showParking: checked });
-    // Note: Dirty - find the right way to do this
-    setTimeout(this._updateLayers, 0);
-  };
-
-  _toggleBusStops = (e, { checked }) => {
-    this.props.onChange({ ...this.props, showBusStops: checked });
     // Note: Dirty - find the right way to do this
     setTimeout(this._updateLayers, 0);
   };
@@ -138,13 +167,54 @@ class Controller extends React.Component {
     setTimeout(this._updateLayers, 0);
   };
 
+  _toggleBusStops = (e, { checked }) => {
+    this.props.onChange({ ...this.props, showBusStops: checked });
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers, 0);
+  };
+
+  _toggleFerryStops = (e, { checked }) => {
+    this.props.onChange({ ...this.props, showFerryStops: checked });
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers, 0);
+  };
+
+  _toggleMetroStops = (e, { checked }) => {
+    this.props.onChange({ ...this.props, showMetroStops: checked });
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers, 0);
+  };
+
+  _toggleRailStops = (e, { checked }) => {
+    this.props.onChange({ ...this.props, showRailStops: checked });
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers, 0);
+  };
+
+  _toggleShipStops = (e, { checked }) => {
+    this.props.onChange({ ...this.props, showShipStops: checked });
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers, 0);
+  };
+
+  _toggleTramStops = (e, { checked }) => {
+    this.props.onChange({ ...this.props, showTramStops: checked });
+    // Note: Dirty - find the right way to do this
+    setTimeout(this._updateLayers, 0);
+  };
+
   _updateLayers = () => {
     let layers = [
       parkingLayer(this.props.showParking),
-      busStopLayer(this.props.showBusStops),
       cycleTrafficLayer(this.props.showCycleTraffic, this._cycleTrafficHeight),
       carTrafficLayer(this.props.showCarTraffic, this._carTrafficHeight),
-      evChargingLayer(this.props.showEvCharging)
+      evChargingLayer(this.props.showEvCharging),
+      busStopLayer(this.props.showBusStops),
+      ferryBerthLayer(this.props.showFerryStops),
+      metroStationLayer(this.props.showMetroStops),
+      railStationLayer(this.props.showRailStops),
+      shipBerthLayer(this.props.showShipStops),
+      tramStationLayer(this.props.showTramStops)
     ];
 
     this.props.onLayerChange(layers);
@@ -200,15 +270,6 @@ class Controller extends React.Component {
             type="checkbox"
             defaultChecked={this.props.showParking}
             onChange={this._toggleParking}
-          />
-        </div>
-        <div className="controller-option option-bus-stops">
-          <Checkbox
-            label="Bus Stops"
-            ref="busStopCheck"
-            type="checkbox"
-            defaultChecked={this.props.showBusStops}
-            onChange={this._toggleBusStops}
           />
         </div>
         <div className="controller-option option-cycle-traffic">
@@ -278,6 +339,66 @@ class Controller extends React.Component {
             type="checkbox"
             defaultChecked={this.props.showEvCharging}
             onChange={this._toggleEvCharging}
+          />
+        </div>
+
+        <div className="controller-option option-bus-stops">
+          <Checkbox
+            label="Bus Stops"
+            ref="busStopCheck"
+            type="checkbox"
+            defaultChecked={this.props.showBusStops}
+            onChange={this._toggleBusStops}
+          />
+        </div>
+
+        <div className="controller-option option-ferry-stops">
+          <Checkbox
+            label="Ferry Berths"
+            ref="ferryStopCheck"
+            type="checkbox"
+            defaultChecked={this.props.showFerryStops}
+            onChange={this._toggleFerryStops}
+          />
+        </div>
+
+        <div className="controller-option option-metro-stops">
+          <Checkbox
+            label="Metro Stations"
+            ref="metroStopCheck"
+            type="checkbox"
+            defaultChecked={this.props.showMetroStops}
+            onChange={this._toggleMetroStops}
+          />
+        </div>
+
+        <div className="controller-option option-rail-stops">
+          <Checkbox
+            label="Rail Stations"
+            ref="railStopCheck"
+            type="checkbox"
+            defaultChecked={this.props.showRailStops}
+            onChange={this._toggleRailStops}
+          />
+        </div>
+
+        <div className="controller-option option-ship-stops">
+          <Checkbox
+            label="Ship Berths"
+            ref="shipStopCheck"
+            type="checkbox"
+            defaultChecked={this.props.showShipStops}
+            onChange={this._toggleShipStops}
+          />
+        </div>
+
+        <div className="controller-option option-tram-stops">
+          <Checkbox
+            label="Tram Stations"
+            ref="tramStopCheck"
+            type="checkbox"
+            defaultChecked={this.props.showTramStops}
+            onChange={this._toggleTramStops}
           />
         </div>
 
