@@ -5,6 +5,7 @@ import layers from "../layers";
 
 import controls from "../services/controls.service";
 import controlOption from "./controlOption";
+import controlToggle from "./controlToggle";
 import { controllerUrlManager } from "../services/urlManagement.service";
 
 import "../Controller.css";
@@ -60,16 +61,8 @@ class Controller extends React.Component {
     this.props.onLayerChange(visibleLayers);
   };
 
-  _toggleLayer = ({
-    checked,
-    key,
-    animate,
-    heightKey,
-    isMaster,
-    masterKey
-  }) => {
+  _toggleLayer = ({ checked, key, animate, heightKey }) => {
     let state = { ...this.props };
-    state[key] = checked;
 
     if (animate && heightKey) {
       layers.animateLayer(v => (this[heightKey] = v), checked, () =>
@@ -77,33 +70,7 @@ class Controller extends React.Component {
       );
     }
 
-    if (masterKey && checked) {
-      // A sub checkbox pressed. Enable master.
-      state[masterKey] = true;
-    }
-
-    if (masterKey && !checked) {
-      const subBoxes = controls.filter(obj => obj.masterKey === masterKey);
-      const subStates = subBoxes.map(sub => state[sub.key]);
-      const offNumber = subStates.reduce(
-        (acc, item) => (item ? acc : acc + 1),
-        0
-      );
-
-      if (offNumber === subBoxes.length) {
-        // All sub checkboxes off. Disable master.
-        state[masterKey] = false;
-      }
-    }
-
-    if (isMaster) {
-      // Master checkbox have been pressed. Update all sub checkboxes.
-      controls.forEach(control => {
-        if (control.masterKey === key) {
-          state[control.key] = checked;
-        }
-      });
-    }
+    controlToggle(state, key, checked).forEach(item => (state[item] = checked));
 
     this.props.onChange(state);
 
