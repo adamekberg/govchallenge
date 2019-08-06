@@ -41,48 +41,48 @@ export default [
     label: "Public transit",
     ref: "publicTransitCheck",
     key: "showPublicTransit",
-    ptMaster: true
+    isMaster: true
   },
   {
     label: "Bus Stops",
     ref: "busStopCheck",
     key: "showBusStops",
-    ptSub: true,
+    masterKey: "showPublicTransit",
     indent: true
   },
   {
     label: "Metro Stations",
     ref: "metroStopCheck",
     key: "showMetroStops",
-    ptSub: true,
+    masterKey: "showPublicTransit",
     indent: true
   },
   {
     label: "Railway Stations",
     ref: "railStopCheck",
     key: "showRailStops",
-    ptSub: true,
+    masterKey: "showPublicTransit",
     indent: true
   },
   {
     label: "Ferry Stops",
     ref: "shipStopCheck",
     key: "showShipStops",
-    ptSub: true,
+    masterKey: "showPublicTransit",
     indent: true
   },
   {
     label: "Tram Stations",
     ref: "tramStopCheck",
     key: "showTramStops",
-    ptSub: true,
+    masterKey: "showPublicTransit",
     indent: true
   },
   {
     label: "Car Ferry Stops",
     ref: "ferryStopCheck",
     key: "showFerryStops",
-    ptSub: true,
+    masterKey: "showPublicTransit",
     indent: true
   }
 ];

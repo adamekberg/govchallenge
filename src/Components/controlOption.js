@@ -33,7 +33,7 @@ function shouldDisable(props, dependentBox) {
 }
 
 function setChecked(props, controlSettings) {
-  return controlSettings.ptMaster
+  return controlSettings.isMaster
     ? props.showPublicTransit
     : props[controlSettings.key];
 }

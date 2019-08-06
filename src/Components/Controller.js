@@ -60,9 +60,16 @@ class Controller extends React.Component {
     this.props.onLayerChange(visibleLayers);
   };
 
-  _toggleLayer = ({ checked, key, animate, heightKey, ptMaster }) => {
-    let newState = { ...this.props };
-    newState[key] = checked;
+  _toggleLayer = ({
+    checked,
+    key,
+    animate,
+    heightKey,
+    isMaster,
+    masterKey
+  }) => {
+    let state = { ...this.props };
+    state[key] = checked;
 
     if (animate && heightKey) {
       layers.animateLayer(v => (this[heightKey] = v), checked, () =>
@@ -70,16 +77,35 @@ class Controller extends React.Component {
       );
     }
 
-    if (ptMaster) {
-      // Master checkbox have been pressed. Update all sub checkboxes.
-      for (var i = 0; i < controls.length; i++) {
-        if (controls[i].ptSub) {
-          newState[controls[i].key] = checked;
-        }
+    if (masterKey && checked) {
+      // A sub checkbox pressed. Enable master.
+      state[masterKey] = true;
+    }
+
+    if (masterKey && !checked) {
+      const subBoxes = controls.filter(obj => obj.masterKey === masterKey);
+      const subStates = subBoxes.map(sub => state[sub.key]);
+      const offNumber = subStates.reduce(
+        (acc, item) => (item ? acc : acc + 1),
+        0
+      );
+
+      if (offNumber === subBoxes.length) {
+        // All sub checkboxes off. Disable master.
+        state[masterKey] = false;
       }
     }
 
-    this.props.onChange(newState);
+    if (isMaster) {
+      // Master checkbox have been pressed. Update all sub checkboxes.
+      controls.forEach(control => {
+        if (control.masterKey === key) {
+          state[control.key] = checked;
+        }
+      });
+    }
+
+    this.props.onChange(state);
 
     setTimeout(this._updateLayers, 0);
   };
