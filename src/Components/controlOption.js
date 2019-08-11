@@ -15,7 +15,7 @@ const controlOption = (props, controlSettings, toggleLayer, i) => {
         label={controlSettings.label}
         ref={controlSettings.ref}
         type="checkbox"
-        checked={setChecked(props, controlSettings)}
+        checked={props[controlSettings.key]}
         defaultChecked={props[controlSettings.key]}
         onChange={(e, { checked }) =>
           toggleLayer({
@@ -30,12 +30,6 @@ const controlOption = (props, controlSettings, toggleLayer, i) => {
 
 function shouldDisable(props, dependentBox) {
   return dependentBox && !props[dependentBox];
-}
-
-function setChecked(props, controlSettings) {
-  return controlSettings.isMaster
-    ? props.showPublicTransit
-    : props[controlSettings.key];
 }
 
 export default controlOption;
