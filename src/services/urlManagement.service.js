@@ -7,7 +7,6 @@ import {
 } from "react-url-query";
 
 const controller = {
-
   mapUrlToProps: (url, props) => {
     return {
       showParking: decode(UrlQueryParamTypes.boolean, url.cp),
@@ -17,6 +16,7 @@ const controller = {
       extrudeCarTraffic: decode(UrlQueryParamTypes.boolean, url.xct),
       showEvCharging: decode(UrlQueryParamTypes.boolean, url.evc),
       menuOpen: decode(UrlQueryParamTypes.boolean, url.m),
+      showPublicTransit: decode(UrlQueryParamTypes.boolean, url.pt),
       showBusStops: decode(UrlQueryParamTypes.boolean, url.bs),
       showFerryStops: decode(UrlQueryParamTypes.boolean, url.fs),
       showMetroStops: decode(UrlQueryParamTypes.boolean, url.ms),
@@ -26,7 +26,7 @@ const controller = {
     };
   },
 
-  mapUrlChangeHandlersToProps: (props) => {
+  mapUrlChangeHandlersToProps: props => {
     return {
       onChange: value => {
         replaceInUrlQuery(
@@ -58,6 +58,10 @@ const controller = {
           encode(UrlQueryParamTypes.boolean, value.menuOpen)
         );
         replaceInUrlQuery(
+          "pt",
+          encode(UrlQueryParamTypes.boolean, value.showPublicTransit)
+        );
+        replaceInUrlQuery(
           "bs",
           encode(UrlQueryParamTypes.boolean, value.showBusStops)
         );
@@ -84,16 +88,14 @@ const controller = {
       }
     };
   }
-
-}
+};
 
 const controllerUrlManager = addUrlProps({
   mapUrlToProps: controller.mapUrlToProps,
   mapUrlChangeHandlersToProps: controller.mapUrlChangeHandlersToProps
-})
+});
 
 const map = {
-
   mapUrlToProps: (url, props) => {
     return {
       longitude: decode(UrlQueryParamTypes.number, url.lng) || 18.0686,
@@ -104,7 +106,7 @@ const map = {
     };
   },
 
-  mapUrlChangeHandlersToProps: (props) => {
+  mapUrlChangeHandlersToProps: props => {
     return {
       onChange: value => {
         replaceInUrlQuery(
@@ -130,15 +132,11 @@ const map = {
       }
     };
   }
-
-}
+};
 
 const mapUrlManager = addUrlProps({
   mapUrlToProps: map.mapUrlToProps,
   mapUrlChangeHandlersToProps: map.mapUrlChangeHandlersToProps
-})
+});
 
-export {
-  controllerUrlManager,
-  mapUrlManager
-}
+export { controllerUrlManager, mapUrlManager };

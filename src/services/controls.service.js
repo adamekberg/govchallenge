@@ -15,7 +15,8 @@ export default [
     key: "extrudeBikeTraffic",
     animate: true,
     heightKey: "_bikeTrafficHeight",
-    dep: "showBikeTraffic"
+    dep: "showBikeTraffic",
+    indent: true
   },
   {
     label: "Vehicle Traffic",
@@ -28,7 +29,8 @@ export default [
     key: "extrudeCarTraffic",
     heightKey: "_carTrafficHeight",
     animate: true,
-    dep: "showCarTraffic"
+    dep: "showCarTraffic",
+    indent: true
   },
   {
     label: "Electric Vehicle Charging Stations",
@@ -36,33 +38,51 @@ export default [
     key: "showEvCharging"
   },
   {
+    label: "Public transit",
+    ref: "publicTransitCheck",
+    key: "showPublicTransit",
+    isMaster: true
+  },
+  {
     label: "Bus Stops",
     ref: "busStopCheck",
-    key: "showBusStops"
+    key: "showBusStops",
+    masterKey: "showPublicTransit",
+    indent: true
   },
   {
     label: "Metro Stations",
     ref: "metroStopCheck",
-    key: "showMetroStops"
+    key: "showMetroStops",
+    masterKey: "showPublicTransit",
+    indent: true
   },
   {
     label: "Railway Stations",
     ref: "railStopCheck",
-    key: "showRailStops"
+    key: "showRailStops",
+    masterKey: "showPublicTransit",
+    indent: true
   },
   {
     label: "Ferry Stops",
     ref: "shipStopCheck",
-    key: "showShipStops"
+    key: "showShipStops",
+    masterKey: "showPublicTransit",
+    indent: true
   },
   {
     label: "Tram Stations",
     ref: "tramStopCheck",
-    key: "showTramStops"
+    key: "showTramStops",
+    masterKey: "showPublicTransit",
+    indent: true
   },
   {
     label: "Car Ferry Stops",
     ref: "ferryStopCheck",
-    key: "showFerryStops"
+    key: "showFerryStops",
+    masterKey: "showPublicTransit",
+    indent: true
   }
 ];
