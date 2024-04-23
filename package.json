@@ -34,7 +34,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "gh-pages": "^2.0.1"
+    "gh-pages": "^5.0.0"
   },
   "homepage": "https://adamekberg.github.io/govchallenge"
 }
